@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stock Screener Pro — Find the Next Movers Before They Move</title>
+<meta name="description" content="Multi-market stock screening terminal for Bursa Malaysia, US stocks and Shanghai A-shares. RS ranking, sector strength, pre-breakout detection, risk/reward — built for traders who want the WHY, not just a score.">
+<style>
+  :root{
+    --bg:#0b0e14;--card:#151a23;--card2:#10151f;--line:#2a2e39;
+    --txt:#d1d4dc;--sec:#9aa0ab;--acc:#2962ff;--acc2:#1e53e5;
+    --ok:#3fb950;--warn:#f7c600;--red:#f23645;--purple:#b18cff;--cyan:#39c5cf;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.65;}
+  a{color:var(--acc);text-decoration:none;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+  /* ── Nav ── */
+  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line);}
+  .logo{font-weight:800;font-size:19px;color:#fff;letter-spacing:.3px;}
+  .logo span{color:var(--acc);}
+  nav .navbtn{background:var(--acc);color:#fff;padding:9px 18px;border-radius:9px;font-weight:700;font-size:14px;}
+  nav .navbtn:hover{filter:brightness(1.15);}
+  /* ── Hero ── */
+  .hero{text-align:center;padding:72px 0 44px;}
+  .badge{display:inline-block;background:rgba(41,98,255,.14);border:1px solid rgba(41,98,255,.4);color:#8ab4ff;font-size:12.5px;font-weight:700;padding:5px 13px;border-radius:20px;margin-bottom:18px;}
+  .hero h1{color:#fff;font-size:42px;line-height:1.2;font-weight:800;margin-bottom:14px;}
+  .hero h1 em{font-style:normal;color:var(--acc);}
+  .hero p{color:var(--sec);font-size:18px;max-width:660px;margin:0 auto 26px;}
+  .cta{display:inline-block;background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;font-size:18px;font-weight:800;padding:15px 40px;border-radius:12px;margin-bottom:10px;}
+  .cta:hover{filter:brightness(1.12);}
+  .hero .note{color:var(--sec);font-size:13px;}
+  /* ── Features ── */
+  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;padding:40px 0 20px;}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;}
+  .feat .ic{font-size:26px;margin-bottom:10px;}
+  .feat h3{color:#fff;font-size:17px;margin-bottom:8px;}
+  .feat p{color:var(--sec);font-size:14px;}
+  .feat ul{color:var(--sec);font-size:13.5px;margin:8px 0 0 18px;}
+  .feat li{margin:4px 0;}
+  .feat.hot{border-color:rgba(41,98,255,.55);background:linear-gradient(180deg,#182038,#151a23);}
+  .feat.hot h3{color:#8ab4ff;}
+  /* ── Ticker strip ── */
+  .markets{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:20px 0;display:flex;flex-wrap:wrap;gap:26px;justify-content:center;align-items:center;font-size:14px;color:var(--sec);}
+  .markets b{color:var(--txt);font-weight:700;}
+  /* ── How it works ── */
+  .steps{padding:36px 0;}
+  .steps h2{color:#fff;font-size:26px;margin-bottom:22px;}
+  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;}
+  .step .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;margin-bottom:10px;}
+  .step h4{color:#fff;font-size:16px;margin-bottom:6px;}
+  .step p{color:var(--sec);font-size:13.5px;}
+  /* ── Price ── */
+  .price{background:linear-gradient(135deg,#182038,#151a23);border:1px solid rgba(41,98,255,.5);border-radius:16px;padding:34px;text-align:center;margin:26px 0;}
+  .price .tag{color:var(--warn);font-weight:700;font-size:14px;}
+  .price .amount{color:#fff;font-size:48px;font-weight:800;margin:8px 0 4px;}
+  .price .amount small{font-size:18px;color:var(--sec);font-weight:400;}
+  .price p{color:var(--sec);font-size:14px;max-width:520px;margin:0 auto 18px;}
+  .price .guar{color:var(--ok);font-weight:700;font-size:14px;}
+  /* ── Screenshots ── */
+  .shots{padding:30px 0;}
+  .shots h2{color:#fff;font-size:26px;margin-bottom:8px;}
+  .shots .cap{color:var(--sec);font-size:14.5px;margin-bottom:20px;}
+  .shot{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:22px;}
+  .shot img{width:100%;border-radius:10px;display:block;}
+  .shot .lbl{color:var(--sec);font-size:13.5px;margin-top:10px;text-align:center;}
+  .shot .lbl b{color:#fff;}
+  /* ── FAQ ── */
+  .faq{padding:30px 0 20px;}
+  .faq h2{color:#fff;font-size:26px;margin-bottom:18px;}
+  .faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
+  .faq summary{color:#fff;font-weight:700;cursor:pointer;font-size:15.5px;}
+  .faq details p{color:var(--sec);font-size:14px;margin-top:10px;}
+  /* ── Footer ── */
+  footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 40px;color:var(--sec);font-size:12.5px;text-align:center;}
+  @media (max-width:640px){.hero h1{font-size:30px;}.hero p{font-size:16px;}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <div class="logo">Stock<span>Screener</span> Pro</div>
+    <a class="navbtn" href="#download">⬇ Download</a>
+  </nav>
+
+  <div class="hero">
+    <div class="badge">🚀 NEW — Ignition pulse detector · v1.2.0</div>
+    <h1>Find the next movers <em>before</em> they move.</h1>
+    <p>Stock Screener Pro turns 1,000+ Bursa Malaysia stocks into a shortlist of
+    the ones already proving themselves — ranked by relative strength, sector
+    context, structure and risk/reward. <b>It tells you WHY, not just a score.</b></p>
+    <a class="cta" id="download" href="https://github.com/naiping87/stock-screener/releases/download/v1.2.0/StockScreenerPro_Setup.exe" download>⬇ &nbsp;Download for Windows (v1.2.0)</a>
+    <div class="note">≈ 117 MB · Windows 10+ · Self-contained, no Python needed · Free 7-day trial via shop order channel</div>
+  </div>
+
+  <div class="markets">
+    <span>🇲🇾 <b>Bursa Malaysia</b></span>
+    <span>🇺🇸 <b>US Stocks</b></span>
+    <span>🇨🇳 <b>Shanghai A-Shares</b></span>
+    <span>🗣 <b>English · Bahasa Melayu · 中文</b></span>
+  </div>
+
+  <div class="features">
+    <div class="feat hot">
+      <div class="ic">🚀</div>
+      <h3>Ignition — Pre-Breakout Radar</h3>
+      <p>Our new pulse detector scopes the whole market for the exact pattern
+      professional technicians look for before an expansion:</p>
+      <ul>
+        <li><b>RS Rank</b> — relative strength ranked vs every other stock (Leader / Emerging Leader / Weakening)</li>
+        <li><b>Sector strength</b> — find the market, then the stock</li>
+        <li><b>Base quality</b> — volume dry-up, higher lows, tight range</li>
+        <li><b>Closing Strength (CLV)</b> — closed near the day's high?</li>
+        <li><b>Measured-move R:R</b> — real target vs invalidation, pass if < 1.5</li>
+        <li><b>12 setup labels</b> — TRIGGER WATCH / SETUP / BREAKOUT / EMERGING LEADER…</li>
+      </ul>
+    </div>
+    <div class="feat">
+      <div class="ic">📊</div>
+      <h3>Full Screener Suite</h3>
+      <p>EMA Compression (daily/hourly/weekly) · KDJ divergence · Daily &amp; Weekly
+      KDJ golden cross · 11-factor weighted scoring · Top movers · New picks board.</p>
+    </div>
+    <div class="feat">
+      <div class="ic">📈</div>
+      <h3>Chart Drill-Down</h3>
+      <p>TradingView-style dark charts: candlesticks + EMA 20/50/100/200, volume,
+      KDJ, and now <b>Pivot lines</b> with extended labels — zoom, pan, crosshair.</p>
+    </div>
+    <div class="feat">
+      <div class="ic">🔔</div>
+      <h3>Alerts &amp; Autopilot</h3>
+      <p>Weekly KDJ golden-cross tray notifications, 5-minute auto-refresh,
+      first-time pick detection, CSV export, per-market defaults.</p>
+    </div>
+    <div class="feat">
+      <div class="ic">🧭</div>
+      <h3>Explainable Scores</h3>
+      <p>Every rank comes with plain-language reasons:
+      “RS rank #60 · rank +39 in 20d · Volume Dry-up · near Pivot (1.2%)”.
+      Strength ≠ Setup ≠ Trigger — see the full picture.</p>
+    </div>
+    <div class="feat">
+      <div class="ic">🔒</div>
+      <h3>One Price, Yours Forever</h3>
+      <p>Offline activation with a signed code — no server, no subscription.
+      One machine per code, lifetime license, 7-day money-back guarantee.</p>
+    </div>
+  </div>
+
+  <div class="steps">
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="step"><span class="num">1</span><h4>Download &amp; install</h4><p>Run the installer — fully self-contained, no Python, no setup.</p></div>
+      <div class="step"><span class="num">2</span><h4>Activate</h4><p>Send the seller your machine code; paste your personal activation code once.</p></div>
+      <div class="step"><span class="num">3</span><h4>Run &amp; review</h4><p>Click Run. Open the 🚀 Ignition tab — check RS rank, setups and triggers with reasons.</p></div>
+    </div>
+  </div>
+
+  <div class="shots">
+    <h2>See it in action</h2>
+    <div class="cap">Real screenshots from the desktop app — live Bursa Malaysia data.</div>
+    <div class="shot">
+      <img src="screenshots/ignition_tab.png" alt="Ignition pulse detector — RS rank, sector, setup columns" loading="lazy">
+      <div class="lbl"><b>🚀 Ignition tab</b> — RS rank, rank change, scores and explainable reasons per stock</div>
+    </div>
+    <div class="shot">
+      <img src="screenshots/chart_pivot.png" alt="Chart drill-down with pivot resistance lines" loading="lazy">
+      <div class="lbl"><b>📈 Chart drill-down</b> — candlesticks, EMA, KDJ and pivot resistance lines</div>
+    </div>
+    <div class="shot">
+      <img src="screenshots/app_main.png" alt="Stock Screener Pro main window" loading="lazy">
+      <div class="lbl"><b>🖥 Main window</b> — market data, screeners and filters in a dark TradingView-style theme</div>
+    </div>
+  </div>
+
+  <div class="price">
+    <div class="tag">ONE-TIME · LIFETIME LICENSE</div>
+    <div class="amount">RM 99 <small>· one-time</small></div>
+    <p>Everything included — Ignition detector, all screeners, charts, alerts,
+    three markets. No subscription, no ads, no data fees.</p>
+    <p>Order on <b>Shopee</b> — search “Stock Screener Pro” or contact the seller.
+    Your personal activation code is delivered after purchase.</p>
+    <div class="guar">🛡️ 7-day money-back guarantee via Shopee</div>
+  </div>
+
+  <div class="faq">
+    <h2>FAQ</h2>
+    <details open><summary>Do I need Python or any setup?</summary><p>No — the installer bundles everything (Python, libraries, data sources). Just run the .exe.</p></details>
+    <details><summary>Is this a subscription?</summary><p>No. One-time purchase, lifetime license, offline activation, one machine per code.</p></details>
+    <details><summary>What data does it use?</summary><p>Yahoo Finance (Bursa + US) and AkShare (Shanghai) — free sources, fetched live, cached locally per day.</p></details>
+    <details><summary>Can one code be used on two computers?</summary><p>No — each code is bound to one machine. If you change computers, contact the seller for a replacement.</p></details>
+    <details><summary>Windows says the file is unsafe?</summary><p>Click <b>More info → Run anyway</b>. The build is unsigned (normal for small software); it is safe. Restore it from quarantine if your antivirus blocks it.</p></details>
+  </div>
+
+  <footer>
+    Data: Yahoo Finance · AkShare — for research and reference only, <b>not investment advice</b>.
+    Trading stocks carries risk. · <a href="download.html">Download &amp; activation help</a>
+  </footer>
+</div>
+
+</body>
+</html>
