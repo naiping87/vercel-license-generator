@@ -30,10 +30,10 @@ Vercel 项目：`naiping87s-projects/vercel-license-generator`
 
 ## 产品版本状态（2026-08-29）
 
-- 桌面版 **v1.2.2**：安装包 `installer/StockScreenerPro_Setup.exe`（134,426,368 bytes）
-- GitHub Release：`naiping87/stock-screener` tag **v1.2.2**（`gh release create` 建，含资产；v1.2.0/v1.2.1 保留作回滚）
+- 桌面版 **v1.2.2**：安装包 `installer/StockScreenerPro_Setup.exe`（134,435,615 bytes，2026-08-29 17:58 UTC 覆盖）
+- GitHub Release：`naiping87/stock-screener` tag **v1.2.2**（资产已用 --clobber 覆盖为最新含图表修复版；v1.2.0/v1.2.1 保留作回滚）
 - 下载链接（网页已更新）：`https://github.com/naiping87/stock-screener/releases/download/v1.2.2/StockScreenerPro_Setup.exe`（HTTP 200 已验证）
-- v1.2.2 新增（14 提交）：Ignition v2（Bursa 板块地图 + 会话感知 CLV）、Signal Journal（Edge Report 标签页）、KDJ 26/5 单一数据源、图表十字光标 + D/W 快捷键、列提示 tooltip、低价股精度修复、Phase-1 回测工具
+- v1.2.2 新增（14 提交 + 本次）：Ignition v2（Bursa 板块地图 + 会话感知 CLV）、Signal Journal（Edge Report 标签页）、KDJ 26/5、图表十字光标 + D/W 快捷键、列提示 tooltip、低价股精度、Phase-1 回测工具；本次再加：K 线红绿高对比（#22C55E/#EF4444）、动态宽度、周线/日线 OHLC 数据修复、快速显示（不等 meta 即出结果）
 - v1.2.1 曾新增：会话感知、Fusion 修复。累计：Ignition、penny 防护、语言互斥、i18n 三语、性能优化、图表修复、分步进度条
 
 ## 待办（按优先级）
