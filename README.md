@@ -14,8 +14,8 @@ Vercel 项目：`naiping87s-projects/vercel-license-generator`
 
 | 文件 | 线上路径 | 面向谁 | 状态 |
 |---|---|---|---|
-| `index.html` | `/`（主域名首页） | ✅ 买家（宣传落地页：Ignition 卖点 + 下载 + 购买 + FAQ） | ✅ 2026-08-26 重写为新版 |
-| `download.html` | `/download.html` | 买家（下载/激活说明） | ✅ 已更新：Ignition 卖点 + v1.2.0 下载链接 + FAQ |
+| `index.html` | `/`（主域名首页） | ✅ 买家（宣传落地页：Ignition v2 卖点 + 下载 + 购买 + FAQ） | ✅ 2026-08-29 更新到 v1.2.2（Signal Journal / 会话感知 / 板块地图卖点） |
+| `download.html` | `/download.html` | 买家（下载/激活说明） | ✅ 已更新：v1.2.2 下载链接（134MB）+ FAQ |
 | `seller.html` | `/seller.html` | 卖家（激活码生成器，原 index.html 备份） | ✅ 已创建（备份原生成器） |
 | `nacl.min.js` | `/nacl.min.js` | 生成器依赖 | — |
 
@@ -26,22 +26,22 @@ Vercel 项目：`naiping87s-projects/vercel-license-generator`
 - **没有 git 仓库**（`not a git repository`）——Vercel 上是 CLI 手动项目，非 Git 集成
 - 部署命令：`cd vercel-license-generator && vercel --prod --yes`
 - 每次 CLU 部署都会生成新的 Deployment URL，但会自动 alias 到正式域名
-- 最新部署：2026-08-26 01:42（download.html 更新那次）
+- 最新部署：2026-08-29 12:40（v1.2.2 发布：落地页 + 下载页同步更新）
 
-## 产品版本状态（2026-08-26）
+## 产品版本状态（2026-08-29）
 
-- 桌面版 **v1.2.1**：安装包 `installer/StockScreenerPro_Setup.exe`（117,714,632 bytes，02:10 UTC）
-- GitHub Release：`naiping87/stock-screener` tag **v1.2.1**（新 tag；v1.2.0 保留作回滚）
-- 下载链接（网页已更新）：`https://github.com/naiping87/stock-screener/releases/download/v1.2.1/StockScreenerPro_Setup.exe`（HTTP 200）
-- v1.2.1 新增：🕐 会话感知（EOD/Intraday——盘中不误杀昨日强势股，yesterday_clv 参考）；🎨 Fusion 修复（打包版界面与开发版一致）
-- 累计：Ignition（RS 排名/板块/Setup/Breakout/CLV/R:R）、penny 防护、语言互斥、i18n 三语、性能优化、图表修复（pandas 3.0）、分步进度条
+- 桌面版 **v1.2.2**：安装包 `installer/StockScreenerPro_Setup.exe`（134,426,368 bytes）
+- GitHub Release：`naiping87/stock-screener` tag **v1.2.2**（`gh release create` 建，含资产；v1.2.0/v1.2.1 保留作回滚）
+- 下载链接（网页已更新）：`https://github.com/naiping87/stock-screener/releases/download/v1.2.2/StockScreenerPro_Setup.exe`（HTTP 200 已验证）
+- v1.2.2 新增（14 提交）：Ignition v2（Bursa 板块地图 + 会话感知 CLV）、Signal Journal（Edge Report 标签页）、KDJ 26/5 单一数据源、图表十字光标 + D/W 快捷键、列提示 tooltip、低价股精度修复、Phase-1 回测工具
+- v1.2.1 曾新增：会话感知、Fusion 修复。累计：Ignition、penny 防护、语言互斥、i18n 三语、性能优化、图表修复、分步进度条
 
 ## 待办（按优先级）
 
 1. ✅ ~~移走生成器~~：index.html 已重写为宣传落地页；原生成器备份到 seller.html
 2. ✅ ~~建 git 仓库~~：已推 `naiping87/vercel-license-generator`（c6aeeb4 之后每次改动 commit 再部署）
-3. 🟡 宣传页做「截图文案占位」：回测对比图（Top20 vs Random vs Market）可做宣传素材（截图已加 3 张，回测图待做）
-4. 🟡 README（主项目）补 Ignition 说明（桌面项目已更新部分，Web 侧未做）
+3. ✅ ~~宣传页截图~~：已有 3 张（ignition_tab/chart_pivot/app_main）；🟡 待做：回测对比图（Top20 vs Random vs Market）+ Edge Report 截图
+4. ✅ ~~README（主项目）补 Ignition 说明~~：桌面项目已更新。🟡 待办：攒 3-5 条真实买家评价替换占位评论（旧站已下线）
 
 ## 关键安全事实
 
