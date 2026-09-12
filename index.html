@@ -1,214 +1,1083 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hans">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Stock Screener Pro — Find the Next Movers Before They Move</title>
-<meta name="description" content="Multi-market stock screening terminal for Bursa Malaysia, US stocks and Shanghai A-shares. RS ranking, sector strength, pre-breakout detection, risk/reward — built for traders who want the WHY, not just a score.">
+<title>Stock Screener Pro — 在突破之前，先找到形态</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0b0e14;--card:#151a23;--card2:#10151f;--line:#2a2e39;
-    --txt:#d1d4dc;--sec:#9aa0ab;--acc:#2962ff;--acc2:#1e53e5;
-    --ok:#3fb950;--warn:#f7c600;--red:#f23645;--purple:#b18cff;--cyan:#39c5cf;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);color:var(--txt);font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.65;}
-  a{color:var(--acc);text-decoration:none;}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
-  /* ── Nav ── */
-  nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line);}
-  .logo{font-weight:800;font-size:19px;color:#fff;letter-spacing:.3px;}
-  .logo span{color:var(--acc);}
-  nav .navbtn{background:var(--acc);color:#fff;padding:9px 18px;border-radius:9px;font-weight:700;font-size:14px;}
-  nav .navbtn:hover{filter:brightness(1.15);}
-  /* ── Hero ── */
-  .hero{text-align:center;padding:72px 0 44px;}
-  .badge{display:inline-block;background:rgba(41,98,255,.14);border:1px solid rgba(41,98,255,.4);color:#8ab4ff;font-size:12.5px;font-weight:700;padding:5px 13px;border-radius:20px;margin-bottom:18px;}
-  .hero h1{color:#fff;font-size:42px;line-height:1.2;font-weight:800;margin-bottom:14px;}
-  .hero h1 em{font-style:normal;color:var(--acc);}
-  .hero p{color:var(--sec);font-size:18px;max-width:660px;margin:0 auto 26px;}
-  .cta{display:inline-block;background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;font-size:18px;font-weight:800;padding:15px 40px;border-radius:12px;margin-bottom:10px;}
-  .cta:hover{filter:brightness(1.12);}
-  .hero .note{color:var(--sec);font-size:13px;}
-  /* ── Features ── */
-  .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;padding:40px 0 20px;}
-  .feat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;}
-  .feat .ic{font-size:26px;margin-bottom:10px;}
-  .feat h3{color:#fff;font-size:17px;margin-bottom:8px;}
-  .feat p{color:var(--sec);font-size:14px;}
-  .feat ul{color:var(--sec);font-size:13.5px;margin:8px 0 0 18px;}
-  .feat li{margin:4px 0;}
-  .feat.hot{border-color:rgba(41,98,255,.55);background:linear-gradient(180deg,#182038,#151a23);}
-  .feat.hot h3{color:#8ab4ff;}
-  /* ── Ticker strip ── */
-  .markets{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px 20px;margin:20px 0;display:flex;flex-wrap:wrap;gap:26px;justify-content:center;align-items:center;font-size:14px;color:var(--sec);}
-  .markets b{color:var(--txt);font-weight:700;}
-  /* ── How it works ── */
-  .steps{padding:36px 0;}
-  .steps h2{color:#fff;font-size:26px;margin-bottom:22px;}
-  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;}
-  .step .num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;margin-bottom:10px;}
-  .step h4{color:#fff;font-size:16px;margin-bottom:6px;}
-  .step p{color:var(--sec);font-size:13.5px;}
-  /* ── Price ── */
-  .price{background:linear-gradient(135deg,#182038,#151a23);border:1px solid rgba(41,98,255,.5);border-radius:16px;padding:34px;text-align:center;margin:26px 0;}
-  .price .tag{color:var(--warn);font-weight:700;font-size:14px;}
-  .price .amount{color:#fff;font-size:48px;font-weight:800;margin:8px 0 4px;}
-  .price .amount small{font-size:18px;color:var(--sec);font-weight:400;}
-  .price p{color:var(--sec);font-size:14px;max-width:520px;margin:0 auto 18px;}
-  .price .guar{color:var(--ok);font-weight:700;font-size:14px;}
-  /* ── Screenshots ── */
-  .shots{padding:30px 0;}
-  .shots h2{color:#fff;font-size:26px;margin-bottom:8px;}
-  .shots .cap{color:var(--sec);font-size:14.5px;margin-bottom:20px;}
-  .shot{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:22px;}
-  .shot img{width:100%;border-radius:10px;display:block;}
-  .shot .lbl{color:var(--sec);font-size:13.5px;margin-top:10px;text-align:center;}
-  .shot .lbl b{color:#fff;}
-  /* ── FAQ ── */
-  .faq{padding:30px 0 20px;}
-  .faq h2{color:#fff;font-size:26px;margin-bottom:18px;}
-  .faq details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin-bottom:10px;}
-  .faq summary{color:#fff;font-weight:700;cursor:pointer;font-size:15.5px;}
-  .faq details p{color:var(--sec);font-size:14px;margin-top:10px;}
-  /* ── Footer ── */
-  footer{border-top:1px solid var(--line);margin-top:40px;padding:26px 0 40px;color:var(--sec);font-size:12.5px;text-align:center;}
-  @media (max-width:640px){.hero h1{font-size:30px;}.hero p{font-size:16px;}}
+:root{
+  --ink-1000:#06070A; --ink-900:#0B0D12; --ink-800:#12151C; --ink-700:#1A1E27; --ink-600:#232833;
+  --hair:rgba(255,255,255,.10); --hair2:rgba(255,255,255,.20);
+  --text-1:#F7F8FA; --text-2:#AEB6C2; --text-3:#7F8794;
+  --green:#2EE6A3; --green-deep:#0B4F3C; --gold:#F5B32B; --red:#FF5D6E;
+  --lum-bg:#F4F5F7; --lum-fg:#0A0B0F; --lum-2:#5A6270; --lum-line:rgba(10,11,15,.12);
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',SFMono-Regular,Consolas,'Cascadia Code',Menlo,monospace;
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-xl:26px;
+  --ease:cubic-bezier(.23,1,.32,1);
+  --sh-1:0 1px 2px rgba(0,0,0,.5);
+  --sh-2:0 24px 60px -24px rgba(0,0,0,.85);
+  --sh-3:0 80px 160px -60px rgba(0,0,0,1);
+  --sec:112px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--ink-1000);scroll-behavior:smooth}
+body{background:var(--ink-1000);color:var(--text-1);font-family:var(--font);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+a:focus-visible,button:focus-visible,summary:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--green);outline-offset:3px;border-radius:6px}
+
+/* type */
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
+.eyebrow::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+h1{font-size:clamp(46px,6.2vw,100px);line-height:.98;font-weight:600;letter-spacing:-.04em;color:#fff}
+h2.sec{font-size:clamp(30px,3.6vw,56px);line-height:1.04;font-weight:600;letter-spacing:-.035em;color:#fff}
+h3{font-weight:600;letter-spacing:-.02em}
+/* 中文排版：不能用西文的负字距与紧凑行高 */
+html[lang^="zh"] h1{letter-spacing:-.012em;line-height:1.12;font-size:clamp(38px,4.3vw,64px)}
+html[lang^="zh"] h2.sec{letter-spacing:-.012em;line-height:1.18;font-size:clamp(28px,3vw,46px)}
+html[lang^="zh"] h3{letter-spacing:-.01em;line-height:1.35}
+html[lang^="zh"] .final h2{letter-spacing:-.012em;line-height:1.14}
+html[lang^="zh"] body{line-height:1.72}
+.lead{color:var(--text-2);font-size:clamp(17px,1.3vw,19.5px);line-height:1.55}
+.acc{color:var(--green)}
+.gold{color:var(--gold)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;height:52px;padding:0 26px;
+  border-radius:var(--r-md);font-size:15.5px;font-weight:600;white-space:nowrap;
+  transition:transform 140ms var(--ease),background 180ms var(--ease),border-color 180ms var(--ease),color 180ms var(--ease)}
+.btn:active{transform:scale(.97)}
+.btn-p{background:var(--green);color:#04130C;box-shadow:0 10px 34px -12px rgba(46,230,163,.7)}
+.btn-g{border:1px solid var(--hair2);color:var(--text-1)}
+.btn-g:hover{border-color:var(--green);color:var(--green)}
+.btn-s{height:40px;padding:0 18px;font-size:14px}
+@media(hover:hover) and (pointer:fine){ .btn-p:hover{background:#45F0B2;transform:translateY(-1px)} }
+
+/* nav */
+.nav{position:sticky;top:0;z-index:60;transition:background 220ms var(--ease),border-color 220ms var(--ease)}
+.nav.stuck{background:rgba(6,7,10,.72);border-bottom:1px solid var(--hair);
+  -webkit-backdrop-filter:saturate(180%) blur(22px);backdrop-filter:saturate(180%) blur(22px)}
+.nav .in{display:flex;align-items:center;gap:14px;height:68px;transition:height 220ms var(--ease)}
+.nav.stuck .in{height:58px}
+.brand{display:flex;align-items:center;gap:10px;font-size:15.5px;font-weight:600;white-space:nowrap;flex:none}
+.brand .mk{width:28px;height:28px;border-radius:9px;background:linear-gradient(150deg,#1E242E,#12151C);border:1px solid var(--hair2);display:grid;place-items:center}
+.brand b{color:var(--green)}
+.nlinks{display:flex;gap:28px;margin-left:14px;flex:1}
+.nlinks a{font-size:14px;color:var(--text-2);transition:color 160ms var(--ease)}
+.nlinks a:hover{color:#fff}
+.seg{display:inline-flex;gap:2px;background:var(--ink-700);border:1px solid var(--hair);border-radius:10px;padding:3px}
+.seg button{font-size:12px;font-weight:600;color:var(--text-2);padding:6px 10px;border-radius:7px;transition:background 160ms var(--ease),color 160ms var(--ease)}
+.seg button.on{background:var(--ink-600);color:#fff}
+.burger{display:none;width:44px;height:44px;border-radius:var(--r-sm);border:1px solid var(--hair2);place-items:center}
+.burger i{display:block;width:16px;height:1.5px;background:#fff;position:relative}
+.burger i::before,.burger i::after{content:"";position:absolute;left:0;width:16px;height:1.5px;background:#fff}
+.burger i::before{top:-5px}.burger i::after{top:5px}
+.drawer{position:fixed;inset:0;z-index:80;background:rgba(6,7,10,.97);
+  -webkit-backdrop-filter:blur(26px);backdrop-filter:blur(26px);display:none;flex-direction:column;padding:20px 24px 32px}
+.drawer.open{display:flex}
+.drawer .tp{display:flex;justify-content:space-between;align-items:center;height:44px;margin-bottom:20px}
+.drawer nav{display:flex;flex-direction:column}
+.drawer nav a{padding:18px 2px;font-size:23px;font-weight:600;letter-spacing:-.03em;border-bottom:1px solid var(--hair)}
+.drawer .ft{margin-top:auto;display:flex;flex-direction:column;gap:14px;align-items:stretch}
+.x{width:44px;height:44px;border-radius:var(--r-sm);border:1px solid var(--hair2);display:grid;place-items:center;color:var(--text-2)}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero{position:relative;padding:92px 0 104px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto -10%;height:120%;pointer-events:none;
+  background:
+    radial-gradient(680px 420px at 74% 6%,rgba(46,230,163,.16),transparent 62%),
+    radial-gradient(520px 380px at 96% 42%,rgba(245,179,43,.09),transparent 66%);}
+.hero .grid{position:relative;display:block;max-width:900px}
+.hero h1{margin:22px 0 0}
+.hero .lead{margin-top:24px;max-width:520px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.hero .meta{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--text-3)}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+.chips span{font-size:12.5px;color:var(--text-2);border:1px solid var(--hair);border-radius:999px;padding:6px 12px;background:rgba(255,255,255,.02)}
+
+/* ── STATS ─────────────────────────────────────── */
+.stats{border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);background:var(--ink-900)}
+.stats .g{display:grid;grid-template-columns:repeat(4,1fr)}
+.st{padding:40px 26px;border-left:1px solid var(--hair)}
+.st:first-child{border-left:none}
+.st .v{display:block;font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(30px,3vw,44px);
+  font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1}
+.st .l{display:block;margin-top:9px;font-size:13px;color:var(--text-3)}
+.st .bar{height:2px;background:var(--ink-600);border-radius:2px;margin-top:16px;overflow:hidden}
+.st .bar i{display:block;height:2px;width:0;background:linear-gradient(90deg,var(--green),var(--gold));
+  transition:width 1100ms var(--ease)}
+.st.in .bar i{width:var(--w,70%)}
+
+/* ── SECTION ───────────────────────────────────── */
+section.sec{padding:var(--sec) 0}
+.head{max-width:840px;margin-bottom:48px}
+.head h2{margin-top:16px}
+.head p{margin-top:16px;color:var(--text-2);font-size:17px}
+.dark{background:var(--ink-900);border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+
+/* ── BENTO ─────────────────────────────────────── */
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.b{position:relative;background:linear-gradient(180deg,var(--ink-800),#0F1218);border:1px solid var(--hair);
+  border-radius:var(--r-xl);padding:26px 24px;overflow:hidden;transition:transform 240ms var(--ease),border-color 240ms var(--ease)}
+.b:hover{border-color:var(--hair2)}
+@media(hover:hover) and (pointer:fine){ .b:hover{transform:translateY(-3px)} }
+.b.big{grid-column:span 2;grid-row:span 2;display:flex;flex-direction:column}
+.b.wide{grid-column:span 2}
+.b .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.b h3{font-size:19px;color:#fff;margin:12px 0 8px;line-height:1.25}
+.b p{color:var(--text-2);font-size:14px;line-height:1.6}
+.b.big h3{font-size:26px;letter-spacing:-.03em}
+.b.big p{font-size:15px;max-width:520px}
+.b .viz{margin-top:auto;padding-top:22px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+
+/* mini visuals */
+.mini-tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.mini-tbl th{text-align:left;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--text-3);
+  padding:0 8px 8px 0;border-bottom:1px solid var(--hair2);font-weight:500}
+.mini-tbl td{padding:9px 8px 9px 0;border-bottom:1px solid rgba(255,255,255,.05);color:var(--text-2);white-space:nowrap}
+.mini-tbl .code{font-family:var(--mono);color:#fff}
+.mini-tbl .g{font-family:var(--mono);color:var(--green)}
+.mini-tbl .r{font-family:var(--mono);color:var(--red)}
+.mini-tbl .gold{font-family:var(--mono);color:var(--gold)}
+.dual{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.dcell{border:1px solid var(--hair);border-radius:var(--r-md);padding:12px;background:rgba(0,0,0,.2)}
+.dcell .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--text-3);text-transform:uppercase}
+.dcell .v{margin-top:7px;font-size:14.5px;color:#fff}
+.dcell .v.g{color:var(--green)} .dcell .v.gold{color:var(--gold)}
+.sectors{margin-top:16px;display:flex;flex-direction:column;gap:6px}
+.srow{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--text-2)}
+.srow .n{font-family:var(--mono);color:var(--text-3);width:34px;flex:none}
+.srow .t{flex:1;height:5px;border-radius:3px;background:var(--ink-600);overflow:hidden}
+.srow .t i{display:block;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--green),rgba(46,230,163,.25))}
+.srow .v{font-family:var(--mono);color:#fff;width:34px;text-align:right}
+.spark{margin-top:16px}
+.spark svg{width:100%;height:56px;display:block}
+
+/* ── PIPELINE ──────────────────────────────────── */
+.pipe{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hair2);position:relative}
+.pipe::before{content:"";position:absolute;top:-1px;left:0;height:1px;width:0;background:var(--green);transition:width 1200ms var(--ease)}
+.pipe.in::before{width:100%}
+.pstep{padding:26px 22px 6px;border-left:1px solid var(--hair)}
+.pstep:first-child{border-left:none;padding-left:0}
+.pstep .n{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.1em;color:var(--green)}
+.pstep h3{font-size:18px;font-weight:600;color:#fff;margin:12px 0 8px;letter-spacing:-.015em}
+.pstep p{color:var(--text-2);font-size:14px;line-height:1.62}
+@media(max-width:860px){
+  .pipe{grid-template-columns:1fr 1fr}
+  .pstep{border-left:none;border-top:1px solid var(--hair);padding:22px 16px 4px}
+  .pstep:nth-child(1),.pstep:nth-child(2){border-top:none}
+  .pstep:nth-child(odd){padding-left:0}
+  .pstep:nth-child(even){border-left:1px solid var(--hair);padding-left:18px}
+}
+
+/* ── PROOF JOURNAL ─────────────────────────────── */
+.journal{border:1px solid var(--hair2);border-radius:var(--r-lg);background:linear-gradient(180deg,#161A22,#0F1218);overflow:hidden}
+.journal .jbar{display:flex;align-items:center;gap:9px;padding:13px 16px;border-bottom:1px solid var(--hair);font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--text-3)}
+.journal .jbar i{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.jrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border-bottom:1px solid var(--hair);font-family:var(--mono);font-size:13px;color:var(--text-2)}
+.jrow:last-child{border-bottom:none}
+
+/* ── COUNTDOWN PILL ────────────────────────────── */
+.count{display:inline-block;margin:0 0 18px;font-family:var(--mono);font-size:12.5px;font-weight:600;
+  color:#8A4B00;background:rgba(245,179,43,.16);border:1px solid rgba(245,179,43,.45);border-radius:999px;padding:6px 14px}
+.count b{font-weight:700}
+
+/* ── SHOWCASE ──────────────────────────────────── */
+.tabs{display:inline-flex;gap:3px;background:var(--ink-700);border:1px solid var(--hair);border-radius:12px;padding:3px;margin-bottom:26px}
+.tabs button{font-size:13.5px;font-weight:600;color:var(--text-2);padding:9px 18px;border-radius:9px;
+  transition:background 180ms var(--ease),color 180ms var(--ease)}
+.tabs button.on{background:var(--ink-600);color:#fff;box-shadow:var(--sh-1)}
+.panel{display:none}.panel.on{display:block}
+.shot{position:relative;border-radius:var(--r-xl);border:1px solid var(--hair2);background:var(--ink-800);padding:12px;box-shadow:var(--sh-3);overflow:hidden;max-height:690px;cursor:zoom-in}
+.shot.fit::after{display:none}
+.shot::after{content:"";position:absolute;left:12px;right:12px;bottom:12px;height:130px;border-radius:0 0 var(--r-md) var(--r-md);background:linear-gradient(180deg,rgba(18,21,28,0),#12151C 88%);pointer-events:none}
+.crop{position:relative;overflow:hidden;border-radius:var(--r-lg);border:1px solid var(--hair);background:#0E1117;cursor:zoom-in}
+.crop.tbl{aspect-ratio:1160/368}
+.crop.hero{aspect-ratio:1100/380;border-radius:var(--r-lg)}
+.crop.strip{aspect-ratio:1140/232;border-radius:var(--r-lg)}
+.crop.strip img{position:absolute;left:-38.60%;top:-22.41%;width:168.42%;max-width:none}
+.crop img,.shot img{filter:saturate(.72) contrast(1.03)}
+.anno{position:absolute;display:inline-flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10.5px;
+  letter-spacing:.04em;color:var(--green);border:1px solid rgba(46,230,163,.45);border-radius:999px;
+  padding:5px 11px;background:rgba(6,7,10,.86);pointer-events:none;white-space:nowrap}
+.anno::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--green)}
+.crop.hero img{position:absolute;left:0;top:-11.84%;width:174.545%;max-width:none}
+.crop.tbl img{position:absolute;left:-37.93%;top:-14.13%;width:165.52%;max-width:none}
+.crop .hint{position:absolute;right:12px;bottom:12px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+  color:var(--green);border:1px solid rgba(46,230,163,.32);border-radius:999px;padding:5px 11px;background:rgba(6,7,10,.75)}
+.caption{display:flex;gap:12px;max-width:820px;margin:24px auto 0;color:var(--text-2);font-size:15px}
+.caption .arw{color:var(--green);font-family:var(--mono);flex:none}
+.caption b{color:#fff;font-weight:600}
+
+/* ── TRACK ─────────────────────────────────────── */
+.tgrid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:start}
+.bars{margin-top:6px}
+.brow{margin-bottom:20px}
+.brow .lab{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;color:var(--text-2);margin-bottom:9px}
+.brow .lab b{color:#fff;font-weight:600;font-size:14.5px}
+.brow .lab .num{font-family:var(--mono)}
+.track{height:34px;border-radius:9px;background:var(--ink-700);position:relative;overflow:hidden}
+.track i{position:absolute;top:0;bottom:0;border-radius:9px;transition:width 1200ms var(--ease)}
+.track.p i{left:50%;background:linear-gradient(90deg,var(--green),#1FBF87)}
+.track.n i{right:50%;background:linear-gradient(270deg,var(--red),#C43B4C)}
+.track .zero{position:absolute;left:50%;top:-6px;bottom:-6px;width:1px;background:var(--hair2)}
+.tbl2{width:100%;border-collapse:collapse;font-size:14px;margin-top:34px}
+.tbl2 th{text-align:left;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text-3);padding:0 12px 11px 0;border-bottom:1px solid var(--hair2);font-weight:500}
+.tbl2 td{padding:14px 12px 14px 0;border-bottom:1px solid var(--hair);color:var(--text-2)}
+.tbl2 td:first-child{color:#fff}
+.tbl2 .num{font-family:var(--mono)}
+.tbl2 .g{font-family:var(--mono);color:var(--green)} .tbl2 .r{font-family:var(--mono);color:var(--red)}
+.ev{position:relative;border:1px solid var(--hair);border-radius:var(--r-lg);background:var(--ink-800);padding:12px;
+  cursor:zoom-in;transition:transform 220ms var(--ease),border-color 220ms var(--ease)}
+.ev:hover{transform:translateY(-3px);border-color:var(--hair2)}
+.ev img{border-radius:var(--r-md);width:100%;border:1px solid var(--hair)}
+.ev .cap2{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 6px 4px}
+.ev .cap2 b{display:block;font-size:14px;color:#fff}
+.ev .cap2 span{display:block;font-size:12.5px;color:var(--text-3);margin-top:2px}
+.ev .view{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--green);
+  border:1px solid rgba(46,230,163,.32);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.fine{margin-top:22px;font-size:12.5px;color:var(--text-3);line-height:1.75;max-width:760px}
+
+/* ── PRICING (light band) ──────────────────────── */
+.lum{background:var(--lum-bg);color:var(--lum-fg)}
+.lum .head h2{color:var(--lum-fg)}
+.lum .eyebrow{color:#0B7A57}
+.lum .eyebrow::before{background:#0B7A57;box-shadow:none}
+.lum .head p{color:var(--lum-2)}
+.pcard{max-width:820px;margin:0 auto;background:#fff;border:1px solid var(--lum-line);border-radius:var(--r-xl);
+  padding:52px 48px 44px;box-shadow:0 40px 80px -50px rgba(10,11,15,.35);text-align:center}
+.pcard .tag{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:#0B7A57;background:rgba(11,122,87,.08);border:1px solid rgba(11,122,87,.22);border-radius:999px;padding:6px 14px}
+.price{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:clamp(54px,7vw,84px);font-weight:600;
+  letter-spacing:-.05em;color:var(--lum-fg);line-height:1;margin:22px 0 10px}
+.price small{font-size:17px;font-weight:500;color:var(--lum-2);letter-spacing:0;margin-left:8px}
+.pcard .sub{color:var(--lum-2);font-size:15px;max-width:540px;margin:0 auto 30px}
+.pl{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 34px;max-width:600px;margin:0 auto 34px;text-align:left}
+.pl li{padding:12px 0;font-size:14.5px;color:var(--lum-fg);border-bottom:1px solid var(--lum-line);display:flex;gap:11px;align-items:flex-start}
+.pl li::before{content:"";width:15px;height:15px;flex:none;margin-top:4px;border-radius:50%;background:rgba(11,122,87,.12);position:relative}
+.pl li::after{content:"";position:absolute}
+.pcta{display:flex;flex-direction:column;gap:11px;align-items:center}
+.lum .btn-p{background:#0B7A57;color:#fff;box-shadow:0 12px 30px -14px rgba(11,122,87,.75)}
+.lum .btn-p:hover{background:#0d8c63}
+.lum .btn-g{border:1px solid rgba(10,11,15,.2);color:var(--lum-fg)}
+.lum .btn-g:hover{border-color:#0B7A57;color:#0B7A57}
+.order{margin-top:20px;font-size:14px;color:var(--lum-2)}
+.order a{color:var(--lum-fg);text-decoration:underline;text-underline-offset:3px}
+.guar{margin-top:14px;font-family:var(--mono);font-size:12.5px;color:var(--lum-2)}
+
+/* ── FAQ / FINAL / FOOTER ──────────────────────── */
+.faq{max-width:880px;margin:0 auto}
+.faq details{border-bottom:1px solid var(--hair)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:20px;
+  padding:24px 4px;font-size:16.5px;font-weight:600;color:#fff;letter-spacing:-.015em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";width:10px;height:10px;flex:none;border-right:1.5px solid var(--text-3);
+  border-bottom:1.5px solid var(--text-3);transform:rotate(45deg);transition:transform 260ms var(--ease),border-color 160ms var(--ease)}
+.faq details[open] summary::after{transform:rotate(-135deg);border-color:var(--green)}
+.faq details p{padding:0 4px 26px;color:var(--text-2);font-size:15px;line-height:1.72;max-width:740px}
+.faq details p b{color:#fff;font-weight:600}
+.final{position:relative;padding:150px 0;text-align:center;overflow:hidden}
+.final::before{content:"";position:absolute;inset:auto -10% -40% -10%;height:90%;pointer-events:none;
+  background:radial-gradient(660px 420px at 50% 100%,rgba(46,230,163,.22),transparent 66%)}
+.final h2{position:relative;font-size:clamp(36px,5vw,72px);line-height:1.02;font-weight:600;letter-spacing:-.04em;color:#fff}
+.final p{position:relative;color:var(--text-2);font-size:17px;max-width:520px;margin:20px auto 32px}
+.final .cta{display:flex;justify-content:center;gap:12px;position:relative;flex-wrap:wrap}
+footer{border-top:1px solid var(--hair);padding:60px 0 50px;background:var(--ink-1000)}
+.fg{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.fb{max-width:400px}
+.fb p{color:var(--text-3);font-size:13.5px;line-height:1.75;margin-top:16px}
+.fc{display:flex;gap:76px}
+.fc h5{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-bottom:16px;font-weight:500}
+.fc a{display:block;color:var(--text-2);font-size:14px;padding:6px 0;transition:color 160ms var(--ease)}
+.fc a:hover{color:var(--green)}
+.disc{margin-top:44px;padding-top:22px;border-top:1px solid var(--hair);font-size:12.5px;color:var(--text-3);line-height:1.8}
+.disc b{color:var(--text-2)}
+
+/* ── LIGHTBOX ──────────────────────────────────── */
+.lb{position:fixed;inset:0;z-index:90;background:rgba(4,5,7,.97);display:none;flex-direction:column;
+  align-items:center;justify-content:center;padding:24px}
+.lb.open{display:flex}
+.lb img{max-width:min(1500px,94vw);max-height:80vh;border-radius:var(--r-md);border:1px solid var(--hair2)}
+.lb .c{margin-top:16px;color:var(--text-2);font-size:14px}
+
+/* ── REVEAL ────────────────────────────────────── */
+.rv{opacity:0;transform:translateY(16px);transition:opacity 620ms var(--ease),transform 620ms var(--ease)}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:70ms}.rv.d2{transition-delay:140ms}.rv.d3{transition-delay:210ms}.rv.d4{transition-delay:280ms}
+
+/* ── RESPONSIVE ────────────────────────────────── */
+@media(max-width:1100px){
+  :root{--sec:92px}
+  .hero .grid{grid-template-columns:1fr;gap:44px}
+  .hero{padding:64px 0 80px}
+  .bento{grid-template-columns:1fr 1fr}
+  .b.big{grid-column:span 2;grid-row:auto}
+  .b.wide{grid-column:span 2}
+  .tgrid{grid-template-columns:1fr;gap:34px}
+}
+@media(max-width:860px){
+  :root{--sec:80px}
+  .nlinks{display:none}
+  .nav .btn-p{display:none}
+  .burger{display:grid}
+  .stats .g{grid-template-columns:1fr 1fr}
+  .st{padding:30px 20px}
+  .st:nth-child(3){border-left:none}
+  .st:nth-child(n+3){border-top:1px solid var(--hair)}
+  .bento{grid-template-columns:1fr}
+  .b.big,.b.wide{grid-column:span 1}
+  .mock .body{grid-template-columns:1fr}
+  .mock .side{display:none}
+}
+@media(max-width:640px){
+  .wrap{padding:0 20px}
+  .nav .seg{display:none}
+  .drawer .seg{display:inline-flex}
+  .hero{padding:48px 0 64px}
+  .mock{border-radius:var(--r-lg)}
+  .mock .tbl th:nth-child(n+6),.mock .tbl td:nth-child(n+6){display:none}
+  .pl{grid-template-columns:1fr}
+  .pcard{padding:40px 22px 34px}
+  .final{padding:104px 0}
+  .fg{flex-direction:column}
+  .fc{gap:40px}
+  .tabs{display:flex;width:100%;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}.tabs button{flex:none}
+  .dual{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  *{transition-duration:1ms !important;animation:none !important}
+}
+@media(prefers-reduced-transparency:reduce){
+  .nav.stuck,.drawer{-webkit-backdrop-filter:none;backdrop-filter:none;background:#06070A}
+}
+@media(prefers-contrast:more){
+  :root{--hair:rgba(255,255,255,.3);--text-2:#fff;--text-3:#CDD3DC}
+}
 </style>
 </head>
 <body>
 
-<div class="wrap">
-  <nav>
-    <div class="logo">Stock<span>Screener</span> Pro</div>
-    <a class="navbtn" href="#download">⬇ Download</a>
-  </nav>
-
-  <div class="hero">
-    <div class="badge">🚀 NEW — Ignition v2 + Signal Journal · v1.2.3</div>
-    <h1>Find the next movers <em>before</em> they move.</h1>
-    <p>Stock Screener Pro turns 1,000+ Bursa Malaysia stocks into a shortlist of
-    the ones already proving themselves — ranked by relative strength, sector
-    context, structure and risk/reward. <b>It tells you WHY, not just a score.</b></p>
-    <a class="cta" id="download" href="https://github.com/naiping87/stock-screener/releases/download/v1.2.3/StockScreenerPro_Setup.exe" download>⬇ &nbsp;Download for Windows (v1.2.3)</a>
-    <div class="note">≈ 134 MB · Windows 10+ · Self-contained, no Python needed · Free 7-day trial via shop order channel</div>
+<header class="nav" id="nav">
+  <div class="wrap in">
+    <a class="brand" href="#top"><span class="mk"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M4 17v-4m4 4V9m4 8v-7m4 7V7" stroke="#2EE6A3" stroke-width="2.4" stroke-linecap="round"/><path d="M3 13l5-5 4 3 7-8" stroke="#AEB6C2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Stock <b>Screener</b> Pro</span></a>
+    <nav class="nlinks">
+      <a href="#terminal" data-i18n="n2"></a><a href="#inside" data-i18n="n3"></a><a href="#track" data-i18n="n4"></a><a href="#pricing" data-i18n="n5"></a><a href="#faq" data-i18n="n6"></a>
+    </nav>
+    <div class="seg" role="group" aria-label="Language"><button type="button" data-lang="zh" class="on">中文</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="bm">BM</button></div>
+    <a class="btn btn-p btn-s" href="#pricing" data-i18n="n1"></a>
+    <button class="burger" id="burger" type="button" aria-label="打开菜单" aria-expanded="false"><i></i></button>
   </div>
+</header>
 
-  <div class="markets">
-    <span>🇲🇾 <b>Bursa Malaysia</b></span>
-    <span>🇺🇸 <b>US Stocks</b></span>
-    <span>🇨🇳 <b>Shanghai A-Shares</b></span>
-    <span>🗣 <b>English · Bahasa Melayu · 中文</b></span>
-  </div>
-
-  <div class="features">
-    <div class="feat hot">
-      <div class="ic">🚀</div>
-      <h3>Ignition v2 — Pre-Breakout Radar</h3>
-      <p>Our pulse detector scopes the whole market for the exact pattern
-      professional technicians look for before an expansion:</p>
-      <ul>
-        <li><b>RS Rank</b> — relative strength ranked vs every other stock (Leader / Emerging Leader / Weakening)</li>
-        <li><b>Bursa sector map</b> — sector strength baked in, so you find the market before the stock</li>
-        <li><b>Session-aware</b> — EOD vs intraday logic: no premature CLV filtering mid-session</li>
-        <li><b>Base quality</b> — volume dry-up, higher lows, tight range</li>
-        <li><b>Closing Strength (CLV)</b> + <b>measured-move R:R</b> — real target vs invalidation</li>
-        <li><b>12 setup labels</b> — TRIGGER WATCH / SETUP / BREAKOUT / EMERGING LEADER…</li>
-      </ul>
-    </div>
-    <div class="feat">
-      <div class="ic">📊</div>
-      <h3>Full Screener Suite</h3>
-      <p>EMA Compression (daily/hourly/weekly) · KDJ divergence · Daily &amp; Weekly
-      KDJ golden cross · 11-factor weighted scoring · Top movers · New picks board.</p>
-    </div>
-    <div class="feat">
-      <div class="ic">📈</div>
-      <h3>Chart Drill-Down</h3>
-      <p>TradingView-style dark charts: candlesticks + EMA 20/50/100/200, volume,
-      KDJ, and now <b>Pivot lines</b> with extended labels — zoom, pan, crosshair.</p>
-    </div>
-    <div class="feat">
-      <div class="ic">🔔</div>
-      <h3>Alerts &amp; Autopilot</h3>
-      <p>Weekly KDJ golden-cross tray notifications, 5-minute auto-refresh,
-      first-time pick detection, CSV export, per-market defaults.</p>
-    </div>
-    <div class="feat">
-      <div class="ic">🧭</div>
-      <h3>Explainable Scores</h3>
-      <p>Every rank comes with plain-language reasons:
-      “RS rank #60 · rank +39 in 20d · Volume Dry-up · near Pivot (1.2%)”.
-      Strength ≠ Setup ≠ Trigger — see the full picture.</p>
-    </div>
-    <div class="feat">
-      <div class="ic">📒</div>
-      <h3>Signal Journal + Backtest</h3>
-      <p><b>Edge Report</b> keeps a running journal of every ignition signal —
-      what fired, when, and what happened next. Built-in backtest runner
-      (Phase-1 vs random vs market) shows whether the edge is real on your
-      own market, not just in theory.</p>
-    </div>
-    <div class="feat">
-      <div class="ic">🔒</div>
-      <h3>One Price, Yours Forever</h3>
-      <p>Offline activation with a signed code — no server, no subscription.
-      One machine per code, lifetime license, 7-day money-back guarantee.</p>
-    </div>
-  </div>
-
-  <div class="steps">
-    <h2>How it works</h2>
-    <div class="grid3">
-      <div class="step"><span class="num">1</span><h4>Download &amp; install</h4><p>Run the installer — fully self-contained, no Python, no setup.</p></div>
-      <div class="step"><span class="num">2</span><h4>Activate</h4><p>Send the seller your machine code; paste your personal activation code once.</p></div>
-      <div class="step"><span class="num">3</span><h4>Run &amp; review</h4><p>Click Run. Open the 🚀 Ignition tab — check RS rank, setups and triggers with reasons.</p></div>
-    </div>
-  </div>
-
-  <div class="shots">
-    <h2>See it in action</h2>
-    <div class="cap">Real screenshots from the desktop app — live Bursa Malaysia data.</div>
-    <div class="shot">
-      <img src="screenshots/ignition_tab.png" alt="Ignition pulse detector — RS rank, sector, setup columns" loading="lazy">
-      <div class="lbl"><b>🚀 Ignition tab</b> — RS rank, rank change, scores and explainable reasons per stock</div>
-    </div>
-    <div class="shot">
-      <img src="screenshots/chart_pivot.png" alt="Chart drill-down with pivot resistance lines" loading="lazy">
-      <div class="lbl"><b>📈 Chart drill-down</b> — candlesticks, EMA, KDJ and pivot resistance lines</div>
-    </div>
-    <div class="shot">
-      <img src="screenshots/app_main.png" alt="Stock Screener Pro main window" loading="lazy">
-      <div class="lbl"><b>🖥 Main window</b> — market data, screeners and filters in a dark TradingView-style theme</div>
-    </div>
-  </div>
-
-  <div class="price">
-    <div class="tag">ONE-TIME · LIFETIME LICENSE</div>
-    <div class="amount">RM 99 <small>· one-time</small></div>
-    <p>Everything included — Ignition v2, signal journal, all screeners, charts, alerts,
-    three markets. No subscription, no ads, no data fees.</p>
-    <p>Order on <b>Shopee</b> — search “Stock Screener Pro” or contact the seller.
-    Your personal activation code is delivered after purchase.</p>
-    <div class="guar">🛡️ 7-day money-back guarantee via Shopee</div>
-  </div>
-
-  <div class="faq">
-    <h2>FAQ</h2>
-    <details open><summary>Do I need Python or any setup?</summary><p>No — the installer bundles everything (Python, libraries, data sources). Just run the .exe.</p></details>
-    <details><summary>Is this a subscription?</summary><p>No. One-time purchase, lifetime license, offline activation, one machine per code.</p></details>
-    <details><summary>What data does it use?</summary><p>Yahoo Finance (Bursa + US) and AkShare (Shanghai) — free sources, fetched live, cached locally per day. All bundled in the installer, so no extra setup.</p></details>
-    <details><summary>What's new in v1.2.3?</summary><p>Phase-1 Ignition v2 (Bursa sector map + session-aware CLV), a Signal Journal with an Edge Report tab, KDJ 26/5 standardisation, chart crosshair with D/W hotkeys, and column explanations on hover.</p></details>
-    <details><summary>Can one code be used on two computers?</summary><p>No — each code is bound to one machine. If you change computers, contact the seller for a replacement.</p></details>
-    <details><summary>Windows says the file is unsafe?</summary><p>Click <b>More info → Run anyway</b>. The build is unsigned (normal for small software); it is safe. Restore it from quarantine if your antivirus blocks it.</p></details>
-  </div>
-
-  <footer>
-    Data: Yahoo Finance · AkShare — for research and reference only, <b>not investment advice</b>.
-    Trading stocks carries risk. · <a href="download.html">Download &amp; activation help</a>
-  </footer>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="菜单">
+  <div class="tp"><span class="brand"><span class="mk"></span><span>Stock <b>Screener</b> Pro</span></span><button class="x" id="xDrawer" type="button" aria-label="关闭菜单">✕</button></div>
+  <nav><a href="#terminal" data-i18n="n2"></a><a href="#inside" data-i18n="n3"></a><a href="#track" data-i18n="n4"></a><a href="#pricing" data-i18n="n5"></a><a href="#faq" data-i18n="n6"></a></nav>
+  <div class="ft"><div class="seg" role="group" aria-label="Language"><button type="button" data-lang="zh" class="on">中文</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="bm">BM</button></div><a class="btn btn-p" href="#pricing" data-i18n="n1"></a></div>
 </div>
 
+<main id="top">
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap">
+    <div class="grid">
+    <div>
+      <div class="eyebrow" data-i18n="k"></div>
+      <h1 data-i18n="h1"></h1>
+      <p class="lead" data-i18n="lead"></p>
+      <div class="cta">
+        <a class="btn btn-p" href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener" data-i18n="c1"></a>
+        <a class="btn btn-g" href="#terminal" data-i18n="c2"></a>
+      </div>
+      <div class="meta" data-i18n="meta"></div>
+      <div class="chips"><span data-i18n="t1"></span><span data-i18n="t2"></span><span data-i18n="t3"></span><span data-i18n="t4"></span></div>
+    </div>
+
+    </div>
+    <div class="shot fit rv" style="margin-top:52px" data-full="screenshots/app_ignition.png">
+      <img src="screenshots/hero_strip.png" data-full="screenshots/app_ignition.png" alt="Stock Screener Pro 实际界面：Ignition 榜，市场状态条 + 300 只已排序股票" width="1340" height="400">
+      <span class="hint" data-i18n="cropview"></span>
+    </div>
+    <p class="fine rv" data-i18n="shotnote"></p>
+  </div>
+</header>
+
+<!-- STATS -->
+<section class="stats sec" style="padding:0">
+  <div class="wrap"><div class="g">
+    <div class="st rv" data-tr-stat="0" style="--w:34%"><span class="v" data-count="12">0</span><span class="l" data-i18n="s1"></span><span class="bar"><i></i></span></div>
+    <div class="st rv d1" data-tr-stat="1" style="--w:88%"><span class="v" data-count="6148">0</span><span class="l" data-i18n="s2"></span><span class="bar"><i></i></span></div>
+    <div class="st rv d2" data-tr-stat="2" style="--w:66%"><span class="v" data-count="1291">0</span><span class="l" data-i18n="s3"></span><span class="bar"><i></i></span></div>
+    <div class="st rv d3" data-tr-stat="3" style="--w:74%"><span class="v" data-count="3684">0</span><span class="l" data-i18n="s4"></span><span class="bar"><i></i></span></div>
+  </div></div>
+</section>
+
+<!-- PROBLEM -->
+<section class="sec" id="problem">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow" data-i18n="pk"></div>
+      <h2 class="sec" data-i18n="ph"></h2>
+      <p data-i18n="pp"></p>
+    </div>
+    <div class="bento rv">
+      <div class="b wide" style="background:linear-gradient(140deg,rgba(255,93,110,.09),rgba(255,93,110,.02) 60%),linear-gradient(180deg,#161A22,#0F1218)">
+        <span class="k" style="color:#FF8E9B" data-i18n="p1k"></span>
+        <h3 data-i18n="p1t"></h3><p data-i18n="p1d"></p>
+      </div>
+      <div class="b" style="background:linear-gradient(140deg,rgba(46,230,163,.10),rgba(46,230,163,.02) 60%),linear-gradient(180deg,#161A22,#0F1218)">
+        <span class="k" style="color:var(--green)" data-i18n="p2k"></span>
+        <h3 data-i18n="p2t"></h3><p data-i18n="p2d"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow" data-i18n="plk"></div>
+      <h2 class="sec" data-i18n="plh"></h2>
+      <p data-i18n="plp"></p>
+    </div>
+    <div class="pipe rv" id="pipe">
+      <div class="pstep"><span class="n">01 / SCAN</span><h3 data-i18n="pl1t"></h3><p data-i18n="pl1d"></p></div>
+      <div class="pstep"><span class="n">02 / RANK</span><h3 data-i18n="pl2t"></h3><p data-i18n="pl2d"></p></div>
+      <div class="pstep"><span class="n">03 / DETECT</span><h3 data-i18n="pl3t"></h3><p data-i18n="pl3d"></p></div>
+      <div class="pstep"><span class="n">04 / PREPARE</span><h3 data-i18n="pl4t"></h3><p data-i18n="pl4d"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIDE (bento) -->
+<section class="sec dark" id="inside">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow" data-i18n="ik"></div>
+      <h2 class="sec" data-i18n="ih"></h2>
+      <p data-i18n="ip"></p>
+    </div>
+
+    <div class="bento">
+      <div class="b big rv">
+        <span class="k" data-i18n="b1k"></span>
+        <h3 data-i18n="b1t"></h3>
+        <p data-i18n="b1d"></p>
+        <div class="viz">
+          <table class="mini-tbl">
+            <thead><tr><th>CODE</th><th>NAME</th><th>PRICE</th><th>SETUP TYPE</th><th>MASTER</th><th>STRENGTH</th><th>SETUP</th></tr></thead>
+            <tbody>
+              <tr><td class="code">4731</td><td>Scientex Berhad</td><td>3.84</td><td><span class="pill leader">EMERGING LEADER</span></td><td class="g">62.10</td><td class="g">72.90</td><td class="gold">40</td></tr>
+              <tr><td class="code">7277</td><td>Dialog Group Berhad</td><td>1.95</td><td><span class="pill leader">EMERGING LEADER</span></td><td class="g">61.10</td><td class="g">67.50</td><td class="gold">70</td></tr>
+              <tr><td class="code">1082</td><td>Hong Leong Financial</td><td>18.80</td><td><span class="pill leader">EMERGING LEADER</span></td><td class="g">54</td><td class="g">49.60</td><td class="gold">70</td></tr>
+              <tr><td class="code">2291</td><td>Genting Plantations</td><td>6.02</td><td><span class="pill setup">SETUP</span></td><td class="g">45.40</td><td class="g">64.30</td><td class="g">80</td></tr>
+              <tr><td class="code">1961</td><td>IOI Corporation</td><td>4.80</td><td><span class="pill setup">LEADER</span></td><td class="g">43.80</td><td class="g">78</td><td class="gold">60</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="b rv d1">
+        <span class="k" data-i18n="b2k"></span>
+        <h3 data-i18n="b2t"></h3>
+        <p data-i18n="b2d"></p>
+        <div class="dual">
+          <div class="dcell"><span class="t" data-i18n="b2c1t"></span><span class="v gold" data-i18n="b2c1v"></span></div>
+          <div class="dcell"><span class="t" data-i18n="b2c2t"></span><span class="v g" data-i18n="b2c2v"></span></div>
+        </div>
+      </div>
+
+      <div class="b rv d2">
+        <span class="k" data-i18n="b3k"></span>
+        <h3 data-i18n="b3t"></h3>
+        <p data-i18n="b3d"></p>
+        <div class="spark">
+          <svg viewBox="0 0 300 56" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,44 L26,40 L52,42 L78,33 L104,35 L130,26 L156,29 L182,20 L208,22 L234,13 L260,15 L286,7" fill="none" stroke="#2EE6A3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M0,52 L26,50 L52,48 L78,49 L104,45 L130,47 L156,42 L182,44 L208,39 L234,41 L260,36 L286,38" fill="none" stroke="#FF5D6E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/>
+          </svg>
+        </div>
+        <div class="tags"><span class="pill leader" data-i18n="b3p1"></span><span class="pill base" data-i18n="b3p2"></span></div>
+      </div>
+
+      <div class="b wide rv d1">
+        <span class="k" data-i18n="b4k"></span>
+        <h3 data-i18n="b4t"></h3>
+        <p data-i18n="b4d"></p>
+        <div class="dual">
+          <div class="dcell"><span class="t" data-i18n="b4s1t"></span><span class="v" data-i18n="b4s1v"></span></div>
+          <div class="dcell"><span class="t" data-i18n="b4s2t"></span><span class="v g" data-i18n="b4s2v"></span></div>
+          <div class="dcell"><span class="t" data-i18n="b4s3t"></span><span class="v" data-i18n="b4s3v"></span></div>
+          <div class="dcell"><span class="t" data-i18n="b4s4t"></span><span class="v gold" data-i18n="b4s4v"></span></div>
+        </div>
+      </div>
+
+      <div class="b rv d2">
+        <span class="k" data-i18n="b5k"></span>
+        <h3 data-i18n="b5t"></h3>
+        <p data-i18n="b5d"></p>
+        <div class="tags"><span class="pill base">EMA 60 / 200</span><span class="pill base">KDJ</span><span class="pill base">D / W</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHOWCASE -->
+<section class="sec" id="terminal">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow" data-i18n="sk"></div>
+      <h2 class="sec" data-i18n="sh"></h2>
+      <p data-i18n="sp"></p>
+    </div>
+    <div class="tabs rv" role="tablist">
+      <button type="button" data-tab="q1" role="tab" aria-selected="false" data-i18n="q1t"></button>
+      <button class="on" type="button" data-tab="q2" role="tab" aria-selected="true" data-i18n="q2t"></button>
+    </div>
+    <div class="panel" id="q1">
+      <div class="shot rv" role="button" tabindex="0" aria-label="查看完整界面">
+        <img src="screenshots/app_ignition.png" data-full="screenshots/app_ignition.png" alt="Stock Screener Pro 完整主窗口：Ignition 榜与市场状态条" width="1919" height="992">
+        <span class="hint" data-i18n="cropview"></span>
+      </div>
+      <div class="caption"><span class="arw">→</span><span data-i18n="sc1"></span></div>
+    </div>
+    <div class="panel on" id="q2">
+      <div class="shot rv"><img src="screenshots/chart_dialog.png" data-full="screenshots/app_chart.png" alt="图表窗口：Genting Plantations Berhad（2291.KL），EMA 60/200、成交量、KDJ 与枢轴压力线" width="1020" height="700" loading="lazy"></div>
+      <div class="caption"><span class="arw">→</span><span data-i18n="sc2"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section class="sec" id="proof" style="padding-bottom:0">
+  <div class="wrap tgrid">
+    <div class="rv">
+      <div class="eyebrow" data-i18n="ek"></div>
+      <h2 class="sec" data-i18n="eh"></h2>
+      <p style="margin-top:16px;color:var(--text-2);font-size:17px;line-height:1.65" data-i18n="ep"></p>
+    </div>
+    <div class="journal rv d1">
+      <div class="jbar"><i></i><span data-i18n="jbar"></span></div>
+      <div class="jrow"><span>KOSSAN &middot; setup</span><span class="pill leader" data-i18n="j1r"></span></div>
+      <div class="jrow"><span>INARI &middot; trigger watch</span><span class="pill setup" data-i18n="j2r"></span></div>
+      <div class="jrow"><span>SUNWAY &middot; breakout</span><span class="pill leader" data-i18n="j3r"></span></div>
+      <div class="jrow"><span>PENTAMASTER &middot; setup</span><span class="pill leader" data-i18n="j4r"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TRACK -->
+<section class="sec dark" id="track">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow" data-i18n="tk"></div>
+      <h2 class="sec" data-i18n="th"></h2>
+      <p data-i18n="tp"></p>
+    </div>
+    <div class="tgrid">
+      <div class="rv">
+        <div class="bars">
+          <div class="brow">
+            <div class="lab"><b data-i18n="tm1"></b><span class="num g" data-tr-mrow="0" style="color:var(--green)">n=621 · +0.41% · 50%</span></div>
+            <div class="track p"><span class="zero"></span><i style="width:0" data-w="22%"></i></div>
+          </div>
+          <div class="brow">
+            <div class="lab"><b data-i18n="tm2"></b><span class="num r" data-tr-mrow="1" style="color:var(--red)">n=488 · −0.17% · 33%</span></div>
+            <div class="track n"><span class="zero"></span><i style="width:0" data-w="9%"></i></div>
+          </div>
+        </div>
+        <table class="tbl2">
+          <thead><tr><th data-i18n="xh1"></th><th data-i18n="xh2"></th><th data-i18n="xh3"></th><th data-i18n="xh4"></th></tr></thead>
+          <tbody>
+            <tr><td data-i18n="tm1"></td><td class="num">621</td><td class="g">+0.41%</td><td class="num">50%</td></tr>
+            <tr><td data-i18n="tm2"></td><td class="num">488</td><td class="r">−0.17%</td><td class="num">33%</td></tr>
+          </tbody>
+        </table>
+        <p class="fine" data-i18n="tn"></p>
+        <p class="fine" id="trPeriod"></p>
+      </div>
+      <div>
+        <div class="ev rv d1" id="ev" data-tr-ev tabindex="0" role="button" aria-label="放大公开记录截图">
+          <img src="screenshots/track/2026-09-11-bursa.png" alt="2026 年 9 月 11 日 Bursa Ignition 界面，300 只股票已排序" loading="lazy">
+          <div class="cap2"><span><b>2026-09-11 · Bursa</b><span data-i18n="evc"></span></span><span class="view" data-i18n="evv"></span></div>
+        </div>
+        <p class="fine rv d2" data-i18n="tf"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING (light) -->
+<section class="sec lum" id="pricing">
+  <div class="wrap">
+    <div class="head rv" style="max-width:760px;margin-left:auto;margin-right:auto;text-align:center">
+      <div class="eyebrow" data-i18n="pk2"></div>
+      <h2 class="sec" data-i18n="ph2"></h2>
+      <p data-i18n="pp2"></p>
+    </div>
+    <div class="pcard rv">
+      <span class="tag" data-i18n="ptag"></span>
+      <div class="price">RM 99<small data-i18n="ponce"></small></div>
+      <p style="margin:-2px 0 18px;font-family:var(--mono);font-size:13.5px;color:#0B7A57;font-weight:600" data-i18n="pnote"></p>
+      <p class="count" id="count"></p>
+      <p class="sub" data-i18n="psub"></p>
+      <ul class="pl">
+        <li data-i18n="l1"></li><li data-i18n="l2"></li><li data-i18n="l3"></li><li data-i18n="l4"></li>
+        <li data-i18n="l5"></li><li data-i18n="l6"></li><li data-i18n="l7"></li><li data-i18n="l8"></li>
+      </ul>
+      <div class="pcta">
+        <a class="btn btn-p" href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener" data-i18n="pbuy"></a>
+        <a class="btn btn-g" href="https://drive.google.com/drive/folders/19ADuLdvmMqjy2Vl8ajiiXsQRNqhbRXh_?usp=sharing" target="_blank" rel="noopener" data-i18n="pdl"></a>
+      </div>
+      <p class="order" data-i18n="porder"></p>
+      <div class="guar" data-i18n="pguar"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="head rv" style="max-width:880px;margin-left:auto;margin-right:auto">
+      <div class="eyebrow" data-i18n="fk"></div>
+      <h2 class="sec" data-i18n="fh"></h2>
+    </div>
+    <div class="faq rv">
+      <details open><summary data-i18n="a1q"></summary><p data-i18n="a1a"></p></details>
+      <details><summary data-i18n="a2q"></summary><p data-i18n="a2a"></p></details>
+      <details><summary data-i18n="a3q"></summary><p data-i18n="a3a"></p></details>
+      <details><summary data-i18n="a4q"></summary><p data-i18n="a4a"></p></details>
+      <details><summary data-i18n="a5q"></summary><p data-i18n="a5a"></p></details>
+      <details><summary data-i18n="a6q"></summary><p data-i18n="a6a"></p></details>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section class="final">
+  <div class="wrap rv">
+    <h2 data-i18n="fh2"></h2>
+    <p data-i18n="fp"></p>
+    <div class="cta">
+      <a class="btn btn-p" href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener" data-i18n="fc1"></a>
+      <a class="btn btn-g" href="https://drive.google.com/drive/folders/19ADuLdvmMqjy2Vl8ajiiXsQRNqhbRXh_?usp=sharing" target="_blank" rel="noopener" data-i18n="fc2"></a>
+    </div>
+    <p class="meta mono" style="margin-top:22px;color:var(--text-3);font-size:12.5px" data-i18n="fspec"></p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div class="fb">
+        <a class="brand" href="#top"><span class="mk"><svg viewBox="0 0 24 24" width="16" height="16" fill="none"><path d="M4 17v-4m4 4V9m4 8v-7m4 7V7" stroke="#2EE6A3" stroke-width="2.4" stroke-linecap="round"/><path d="M3 13l5-5 4 3 7-8" stroke="#AEB6C2" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span>Stock <b>Screener</b> Pro</span></a>
+        <p data-i18n="fab"></p>
+      </div>
+      <div class="fc">
+        <div><h5 data-i18n="f1"></h5><a href="#terminal" data-i18n="n2"></a><a href="#inside" data-i18n="n3"></a><a href="#track" data-i18n="n4"></a><a href="#pricing" data-i18n="n5"></a></div>
+        <div><h5 data-i18n="f2"></h5><a href="https://drive.google.com/drive/folders/19ADuLdvmMqjy2Vl8ajiiXsQRNqhbRXh_?usp=sharing" target="_blank" rel="noopener" data-i18n="f3"></a><a href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener" data-i18n="f4"></a><a href="https://github.com/naiping87/stock-screener" target="_blank" rel="noopener" data-i18n="f5"></a></div>
+      </div>
+    </div>
+    <div class="disc"><span data-i18n="fd"></span><br><span data-i18n="fv"></span></div>
+  </div>
+</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="公开记录截图">
+  <img id="lbImg" src="" alt="2026 年 9 月 11 日 Bursa Ignition 界面">
+  <div class="c">2026-09-11 · Bursa · <span data-i18n="evc"></span></div>
+  <button class="btn btn-g btn-s" type="button" id="lbX" style="margin-top:18px" data-i18n="lbx"></button>
+</div>
+<script>
+const I18N = {
+  zh: {
+    n1:"获取 Pro 版", n2:"界面", n3:"功能", n4:"公开记录", n5:"价格", n6:"常见问题",
+    k:"Ignition v2 · 信号日志 · v1.2.15",
+    h1:'在<span class="acc">突破</span>之前，<br>先找到形态。',
+    lead:"扫描整个市场，收敛成一份有排序的候选名单，并告诉你每一只为什么入选——相对强度、板块背景、结构形态与盈亏比，全部用看得懂的话说清楚。",
+    c1:"在 Shopee 购买 — RM 99", c2:"看实际界面",
+    meta:"≈ 134 MB · Windows 10+ · 无需 Python · RM 99 一次付费",
+    t1:"马来西亚股市", t2:"美股", t3:"上海 A 股", t4:"离线激活",
+    shotnote:"实际界面截图 · 马来西亚股市 · 应用界面可在应用内切换英语 / 马来文 / 中文", cropview:"点击看完整界面", anno1:"跨全部股票做相对强度排序",
+    s1:"已记录的交易日", s2:"已记录的信号", s3:"覆盖股票数", s4:"已有 5 日结算结果",
+    pk:"问题所在", ph:"等到所有人都在讨论，机会已经过去了。",
+    pp:"突破上了新闻，盈亏比早就被压扁。真正的机会在更早的地方——一只股票扩张之前，安静搭建起来的那段结构。",
+    p1k:"常见的做法", p1t:"追已经涨起来的股票",
+    p1d:"在新闻、社群、涨幅榜上看到它，再进场。那时价格早已离开你的成本区，止损只能放得很远，盈亏比被压到最差的位置。",
+    p2k:"这里的做法", p2t:"在它还沉默的时候，就先看到它",
+    p2d:"把整个市场按相对强度排序，再筛出正在筑底、量能萎缩、低点抬高、收盘有承接的股票。你在突破之前就拿到名单，止损就能放在结构下面。",
+    ik:"功能", ih:"八个筛选器、两个榜单、一份信号日志。", ip:"每天跑一次，一眼就能读完。数据由应用自己抓取并缓存到本机，可以设成每 5 分钟自动重跑。",
+    b1k:"Ignition v2", b1t:"这是突破前雷达，不是自选股清单。",
+    b1d:"相对强度对比全部股票、马来西亚官方板块地图、会话感知的收盘强度，以及 12 种形态标签——从「触发观察」到「突破」。信号会自动写进日志，之后能自己验证。",
+    b2k:"结构与趋势分离", b2t:"两个问题，分开回答。",
+    b2d:"大多数筛选器把结构和趋势揉成一个数字。这里可以出现：一只股票正在筑底，而趋势栏写着「低于 EMA200 · 偏弱」——形态和风险同时看到，谁也不会盖住谁。",
+    b2c1t:"形态栏 · Sunway", b2c1v:"SETUP · 60", b2c2t:"趋势栏 · Sunway", b2c2v:"低于 EMA200 · 偏弱",
+    b3k:"EMA60 趋势状态", b3t:"不是一刀切的开关。",
+    b3d:"「排除 EMA60 下滑股」只剔除真正下滑的趋势，保留走平的股票，以免误伤早期底部。它作用于每一个筛选器标签页（异动榜除外），每一行都会显示自己的 EMA60 状态。",
+    b3p1:"走平 · 保留", b3p2:"下滑 · 排除",
+    b4k:"官方板块", b4t:"用 Bursa 官方板块，不用别人贴的标签。",
+    b4d:"官方板块表覆盖 1,006 只 Bursa 股票，取代第三方标签，种植股如 IOI、KLK、SD Guthrie、TSH 不再被误标成消费股。板块强度一眼可读。",
+    b4s1t:"市场状态", b4s1v:"NEUTRAL", b4s2t:"最强板块", b4s2v:"能源 96", b4s3t:"最弱板块", b4s3v:"电讯与媒体 11", b4s4t:"上升中", b4s4v:"医疗保健 · 电讯与媒体",
+    b5k:"图表下钻", b5t:"每一行都能点进去。",
+    b5d:"K 线搭配 EMA 60 与 EMA 200、成交量、KDJ 与枢轴压力线——双击即可打开，支持缩放、平移、十字光标与 D/W 切换周期。",
+    sk:"实际界面", sh:"真实的工具，不是概念图。",
+    sp:"下面是实际运行的 Ignition 面板与图表——马来西亚股市数据，带排序，也带每一个分数背后的理由。",
+    q1t:"Ignition 面板", q2t:"图表",
+    sc1:"<b>每一个排名都能自解释。</b>相对强度、形态分、类型与风险回报并列显示——你看到的是形态，不是一个黑箱分数。",
+    sc2:"<b>图表本身就是证据。</b>K 线搭配 EMA 60 与 EMA 200、成交量、KDJ 与枢轴压力线——就是准备交易时会看的那张图。",
+    tk:"公开记录", th:"每一条信号都有日期——包括那些什么都没发生的。",
+    tp:"这就是应用写在你自己电脑上的那份日志：什么时候触发、之后股价怎么走。事后不做任何修改。",
+    tm1:"RS 排名 80 以上", tm2:"RS 排名低于 40",
+    xh1:"分组", xh2:"样本数", xh3:"5 日中位数", xh4:"收高比例",
+    tn:"两组使用同样长度的 5 日窗口、同一段时间。排名只是排序，不是承诺——高 RS 的信号同样有不少回落。每一行都由 journal 文件重新生成，而非凭记忆填写。",
+    tper:"覆盖区间：2026 年 8 月 26 日 → 9 月 11 日 · 马来西亚、美国与上海。",
+    evc:"300 只已排序 · 医疗保健最强（97）· 电讯与媒体上升", evv:"查看完整尺寸",
+    tf:"记录不等于承诺：过去的信号不代表未来结果。以上每一个数字都由 journal 文件本身重新生成，每张截图都是当天的原始界面。",
+    pk2:"价格", ph2:"一次付费，终身使用。", pp2:"没有订阅、没有广告、没有数据费。",
+    ptag:"首发早鸟价 · 至 2026 年 12 月 31 日", ponce:" · 一次", pnote:"2027 年 1 月 1 日起调整为 RM199 · 早鸟买家不受影响",
+    psub:"全部包含——Ignition v2、信号日志、全部筛选器、图表、提醒与三个市场。一码一机，离线激活。",
+    l1:"马来西亚 · 美国 · 上海", l2:"Ignition v2 突破前雷达", l3:"全部 8 个筛选器", l4:"图表下钻 + 枢轴",
+    l5:"提醒与自动刷新", l6:"信号日志 + 回测", l7:"离线激活", l8:"终身更新",
+    pbuy:"在 Shopee 购买 — RM 99", pdl:"下载 Windows 版",
+    porder:'在 <a href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener">Shopee</a> 下单——搜索「Stock Screener Pro」或联系卖家。购买后送达你的激活码。',
+    pguar:"通过 Shopee 享有 7 天退款保证",
+    fk:"常见问题", fh:"下载之前。",
+    a1q:"需要 Python 或任何配置吗？", a1a:"不需要——安装包已打包一切（Python、依赖库、数据源）。直接运行 .exe 即可。",
+    a2q:"这是订阅制吗？", a2a:"不是。一次性购买、终身授权、离线激活、一码一机。",
+    a3q:"用的什么数据？", a3a:"Yahoo Finance（马来西亚 + 美国）与 AkShare（上海）——免费数据源。运行筛选时即时抓取，并缓存到你的电脑上；不是付费的实时行情。",
+    a4q:"EMA60 过滤是怎么运作的？", a4a:"侧栏有一个「排除 EMA60 下滑股」勾选框：只剔除 EMA60 真正下滑的股票——用该股自身的 ATR20 衡量 EMA60 在 10 根 K 线的位移，低于 −0.30 ATR 视为下滑。走平的会被保留（走平是尚未确认，不是转空），历史数据太短无法判断的也保留。它作用于每一个筛选器标签页，只有 Top Movers（异动榜）除外——那是市场快照，不做过滤。",
+    a5q:"一个激活码能用两台电脑吗？", a5a:"不能——每个码绑定一台机器。换电脑请联系卖家换码。",
+    a6q:"Windows 提示文件不安全？", a6a:"点击 <b>更多信息 → 仍然运行</b>。构建未签名（小软件常见），文件是安全的。若被杀毒软件隔离，请恢复。",
+    fh2:'别再追高。<br>现在开始<span class="acc">筛选</span>。',
+    fp:"下载 Stock Screener Pro，在突破之前找到形态。",
+    fc1:"在 Shopee 购买 — RM 99", fc2:"下载 Windows 版", fspec:"≈ 134 MB · Windows 10+ · v1.2.15",
+    fab:"多市场股票筛选终端——为想要「为什么」而不只是一个分数的交易者打造。",
+    f1:"产品", f2:"支持", f3:"下载与激活帮助", f4:"联系（Shopee）", f5:"GitHub",
+    fd:'数据：Yahoo Finance · AkShare——仅供研究与参考，<b>不构成投资建议</b>。股票交易有风险。© Stock Screener Pro。',
+    fv:"Windows 10+ · 版本 v1.2.15 · 公开记录更新于 2026-09-11", lbx:"关闭",
+    plk:"它是怎么找到形态的", plh:"从整个市场，收敛到一份读得完的名单。", plp:"四个步骤，一次点击，跑遍上千只股票。",
+    pl1t:"扫描市场", pl1d:"抓取每一只上市股票的日线、周线与小时数据。",
+    pl2t:"按强度排序", pl2d:"相对强度同时对比大盘与所属板块。",
+    pl3t:"识别形态", pl3d:"底部质量、量能萎缩、低点抬高、收盘强度。",
+    pl4t:"准备交易", pl4d:"量度目标与失效点——真实的盈亏比。",
+    ek:"可以自己验证的证明", eh:"不吹嘘胜率，也不编数字。",
+    ep:"我们不会引用一个无法证明的回测数字。应用会把它发出的每一条信号记录下来，让你在自己的市场上衡量优势——Phase-1 对比随机、对比指数。是真的，你就会看到。",
+    jbar:"信号日志 · EDGE REPORT", j1r:"已记录", j2r:"监控中", j3r:"已记录", j4r:"已记录",
+  },
+  en: {
+    n1:"Get Pro", n2:"Interface", n3:"Features", n4:"Track record", n5:"Pricing", n6:"FAQ",
+    k:"Ignition v2 · Signal journal · v1.2.15",
+    h1:'Find the setup<br>before the <span class="acc">breakout</span>.',
+    lead:"Scan the whole market down to one ranked shortlist — and see why each name made it. Relative strength, sector context, structure and risk/reward, in plain language.",
+    c1:"Buy on Shopee — RM 99", c2:"See the interface",
+    meta:"≈ 134 MB · Windows 10+ · No Python · RM 99 one-time",
+    t1:"Bursa Malaysia", t2:"US stocks", t3:"Shanghai A-shares", t4:"Offline activation",
+    shotnote:"Actual interface screenshot · Bursa Malaysia · the app UI can be switched between English, Malay and Chinese", cropview:"Click for the full window", anno1:"Ranked by relative strength across the whole market",
+    s1:"Trading days logged", s2:"Signals recorded", s3:"Stocks covered", s4:"With a resolved 5-day outcome",
+    pk:"The problem", ph:"By the time everyone is talking about it, the move is over.",
+    pp:"The breakout hits the news feed after the risk/reward has already compressed. The edge lives earlier — in the quiet structure a stock builds before it expands.",
+    p1k:"THE USUAL WAY", p1t:"Chase what has already moved",
+    p1d:"You see it on the news, in a group chat, on the gainers list — then you buy. Price has left your cost area, the stop has to sit far away, and the risk/reward is at its worst.",
+    p2k:"THE OTHER WAY", p2t:"See it while it is still quiet",
+    p2d:"Rank the whole market by relative strength, then keep the names building a base: volume drying up, higher lows, a firm close. You get the list before the breakout, so the stop sits under the structure.",
+    ik:"Features", ih:"Eight screeners, two boards, one signal journal.", ip:"Run it once a day and read it at a glance. The app fetches and caches its own data locally, and can re-run every 5 minutes on a timer.",
+    b1k:"Ignition v2", b1t:"A pre-breakout radar, not a watchlist.",
+    b1d:"Relative strength against every other stock, the official Bursa sector map, session-aware closing strength, and 12 setup labels — from TRIGGER WATCH to BREAKOUT. Every signal is written to a journal you can check later.",
+    b2k:"STRUCTURE ≠ TREND", b2t:"Two questions, asked separately.",
+    b2d:"Most screeners merge structure and trend into one number. Here a stock can be building a base while its trend column reads “below EMA200 · weak” — you see the setup and the risk, never one masking the other.",
+    b2c1t:"Setup · Sunway", b2c1v:"SETUP · 60", b2c2t:"Trend · Sunway", b2c2v:"below EMA200 · weak",
+    b3k:"EMA60 TREND STATE", b3t:"Not a yes/no gate.",
+    b3d:"“Exclude falling EMA60” removes only genuinely falling trends and keeps flat ones, so early bases are not cut. It applies to every screener tab (Top Movers is exempt), and every row shows its own EMA60 state.",
+    b3p1:"Flat · kept", b3p2:"Falling · removed",
+    b4k:"OFFICIAL SECTORS", b4t:"Bursa's own sectors, not borrowed tags.",
+    b4d:"The official sector map covers 1,006 Bursa stocks and replaces third-party tags, so plantation names like IOI, KLK, SD Guthrie and TSH are no longer mislabelled as consumer. Sector strength is readable at a glance.",
+    b4s1t:"Market", b4s1v:"NEUTRAL", b4s2t:"Strongest", b4s2v:"Energy 96", b4s3t:"Weakest", b4s3v:"Telecoms and Media 11", b4s4t:"Rising", b4s4v:"Health Care · Telecoms and Media",
+    b5k:"CHART DRILL-DOWN", b5t:"Every row opens a chart.",
+    b5d:"Candlesticks with EMA 60 and EMA 200, volume, KDJ and pivot resistance — double-click to open, with zoom, pan, crosshair and D/W period switching.",
+    sk:"The real tool", sh:"The actual product, not a concept render.",
+    sp:"Below is the working Ignition tab and chart — Bursa Malaysia data, ranked, with the reason behind every score.",
+    q1t:"Ignition tab", q2t:"Chart",
+    sc1:"<b>Every rank explains itself.</b> Relative strength, setup score, type and risk/reward sit side by side — you see the structure, not a black-box score.",
+    sc2:"<b>The chart is the evidence.</b> Candlesticks with EMA 60 and EMA 200, volume, KDJ and pivot resistance — the same view you use to prepare the trade.",
+    tk:"Public track record", th:"Every signal, dated — including the ones that went nowhere.",
+    tp:"This is the same journal the app writes on your own machine: what fired, when, and what the stock did afterwards. Nothing is edited after the fact.",
+    tm1:"RS rank 80+", tm2:"RS rank below 40",
+    xh1:"Group", xh2:"n", xh3:"Median 5-day", xh4:"Closed higher",
+    tn:"Same five-day window for both groups, same dates. A rank is a ranking, not a promise — plenty of high-RS signals still fell. Each row is regenerated from the journal file, not from memory.",
+    tper:"Period covered: 26 Aug 2026 → 11 Sep 2026 · Bursa Malaysia, US and Shanghai.",
+    evc:"300 ranked · Health Care strongest (97) · Telecoms and Media rising", evv:"VIEW FULL SIZE",
+    tf:"A log is not a promise: past signals do not guarantee future results. Every number above is regenerated from the journal file itself.",
+    pk2:"Pricing", ph2:"Pay once. Keep it.", pp2:"No subscription, no ads, no data fees.",
+    ptag:"Early-bird price · until 31 Dec 2026", ponce:" · once", pnote:"Rises to RM199 on 1 Jan 2027 · early buyers keep their licence",
+    psub:"Everything included — Ignition v2, the signal journal, all screeners, charts, alerts and three markets. One machine per code, offline activation.",
+    l1:"Bursa · US · Shanghai", l2:"Ignition v2 pre-breakout radar", l3:"All 8 screeners", l4:"Chart drill-down + pivots",
+    l5:"Alerts and auto-refresh", l6:"Signal journal + backtest", l7:"Offline activation", l8:"Lifetime updates",
+    pbuy:"Buy on Shopee — RM 99", pdl:"Download for Windows",
+    porder:'Order on <a href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener">Shopee</a> — search “Stock Screener Pro” or contact the seller. Your activation code is delivered after purchase.',
+    pguar:"7-day money-back guarantee via Shopee",
+    fk:"FAQ", fh:"Before you download.",
+    a1q:"Do I need Python or any setup?", a1a:"No — the installer bundles everything (Python, libraries, data sources). Just run the .exe.",
+    a2q:"Is this a subscription?", a2a:"No. One-time purchase, lifetime license, offline activation, one machine per code.",
+    a3q:"What data does it use?", a3a:"Yahoo Finance (Bursa + US) and AkShare (Shanghai) — free sources. Data is fetched when you run a screen and cached on your machine; it is not a paid real-time feed.",
+    a4q:"How does the EMA60 filter work?", a4a:"The sidebar has an “Exclude falling EMA60” checkbox. It removes only stocks whose EMA60 is genuinely falling — measured as the EMA60 travel over 10 bars in the stock own ATR20 (below −0.30 ATR = falling). Flat EMA60s are kept, because flat means unconfirmed rather than bearish, and so are stocks with too little history. It applies to every screener tab; Top Movers is exempt because it is a market snapshot.",
+    a5q:"Can one code be used on two computers?", a5a:"No — each code is bound to one machine. If you change computers, contact the seller for a replacement.",
+    a6q:"Windows says the file is unsafe?", a6a:"Click <b>More info → Run anyway</b>. The build is unsigned (normal for small software); it is safe. Restore it from quarantine if your antivirus blocks it.",
+    fh2:'Stop chasing.<br>Start <span class="acc">screening</span>.',
+    fp:"Download Stock Screener Pro and find the setup before the breakout.",
+    fc1:"Buy on Shopee — RM 99", fc2:"Download for Windows", fspec:"≈ 134 MB · Windows 10+ · v1.2.15",
+    fab:"A multi-market stock screening terminal for traders who want the WHY, not just a score.",
+    f1:"Product", f2:"Support", f3:"Download and activation help", f4:"Contact (Shopee)", f5:"GitHub",
+    fd:'Data: Yahoo Finance · AkShare — for research and reference only, <b>not investment advice</b>. Trading stocks carries risk. © Stock Screener Pro.',
+    fv:"Windows 10+ · version v1.2.15 · track record updated 2026-09-11", lbx:"Close",
+    plk:"How it finds the setup", plh:"From the whole market to a list you can finish reading.", plp:"Four steps, one click, over thousands of stocks.",
+    pl1t:"Scan the market", pl1d:"Daily, weekly and hourly data for every listed name.",
+    pl2t:"Rank by strength", pl2d:"Relative strength against the market and its own sector.",
+    pl3t:"Detect the setup", pl3d:"Base quality, volume dry-up, higher lows, closing strength.",
+    pl4t:"Prepare the trade", pl4d:"Measured-move target and invalidation — a real risk/reward.",
+    ek:"Proof you can run yourself", eh:"No vendor claims. No made-up win rates.",
+    ep:"We will not quote a backtest number we cannot prove. The app records every signal it fires and lets you measure the edge on your own market — Phase-1 vs random vs the index. If it is real, you will see it.",
+    jbar:"SIGNAL JOURNAL · EDGE REPORT", j1r:"recorded", j2r:"monitoring", j3r:"recorded", j4r:"recorded",
+  },
+  bm: {
+    n1:"Dapatkan Pro", n2:"Terminal", n3:"Ciri-ciri", n4:"Rekod Prestasi", n5:"Harga", n6:"Soalan Lazim",
+    k:"Ignition v2 · Jurnal Isyarat · v1.2.15",
+    h1:'Cari corak<br>sebelum <span class="acc">pecah</span>.',
+    lead:"Mengimbas seluruh pasaran dan menjadikannya senarai pendek berperingkat — serta memberitahu anda mengapa setiap nama tersenarai. Kekuatan relatif, konteks sektor, struktur dan untung/risiko, dalam bahasa yang mudah difahami.",
+    c1:"Beli di Shopee — RM 99", c2:"Lihat antara muka",
+    meta:"≈ 134 MB · Windows 10+ · Tiada Python · RM 99 sekali bayar",
+    t1:"Bursa Malaysia", t2:"Saham US", t3:"Saham Shanghai", t4:"Aktivasi luar talian",
+    s1:"Hari dagangan direkod", s2:"Isyarat direkod", s3:"Saham diliputi", s4:"Dengan hasil 5 hari selesai",
+    pk:"Masalahnya", ph:"Apabila semua orang sudah bercakap tentangnya, peluang sudah berlalu.",
+    pp:"Apabila pecahan muncul dalam suapan berita, untung/risiko sudah mengecil. Kelebihannya wujud lebih awal — dalam struktur senyap yang dibina saham sebelum ia mengembang.",
+    p1k:"CARA BIASA", p1t:"Mengejar yang sudah bergerak",
+    p1d:"Anda nampak ia di berita, dalam kumpulan sembang, di senarai pendahulu — kemudian anda beli. Harga sudah jauh dari zon kos anda, stop loss terpaksa diletakkan jauh, dan untung/risiko berada di kedudukan terburuk.",
+    p2k:"CARA SEBALIKNYA", p2t:"Nampak ia semasa masih senyap",
+    p2d:"Susun seluruh pasaran mengikut kekuatan relatif, kemudian simpan nama yang sedang membina asas: volum mengecil, low lebih tinggi, penutupan kukuh. Anda dapat senarai sebelum pecahan, jadi stop boleh diletakkan di bawah struktur.",
+    ik:"Apa yang ada", ih:"Lapan penyaring, dua papan, satu jurnal isyarat.",
+    ip:"Jalankan sekali sehari dan baca sepintas lalu. Aplikasi mengambil dan menyimpan cache datanya sendiri pada mesin anda, dan boleh dijalankan semula setiap 5 minit.",
+    b1k:"Ignition v2", b1t:"Radar pra-pecah, bukan senarai pantau.",
+    b1d:"Kedudukan RS berbanding setiap saham lain, peta sektor rasmi Bursa, kekuatan penutupan sedar-sesi, dan 12 label corak — daripada TRIGGER WATCH hingga BREAKOUT. Setiap isyarat ditulis ke jurnal yang boleh anda semak kemudian.",
+    b2k:"STRUKTUR ≠ TREN", b2t:"Dua soalan, dijawab berasingan.",
+    b2d:"Kebanyakan penyaring menggabungkan struktur dan tren menjadi satu nombor. Di sini satu saham boleh sedang membina asas sementara lajur trennya tertulis “bawah EMA200 · lemah” — anda nampak corak dan risiko, tiada satu menutupi yang lain.",
+    b2c1t:"Lajur corak · Sunway", b2c1v:"SETUP · 60", b2c2t:"Lajur tren · Sunway", b2c2v:"bawah EMA200 · lemah",
+    b3k:"KEADAAN TREN EMA60", b3t:"Bukan suis ya/tidak.",
+    b3d:"“Kecualikan EMA60 menurun” hanya membuang tren yang benar-benar menurun dan mengekalkan yang rata, supaya asas awal tidak dipotong. Ia terpakai pada setiap tab penyaring (Top Movers dikecualikan), dan setiap baris menunjukkan keadaan EMA60 sendiri.",
+    b3p1:"Rata · dikekalkan", b3p2:"Menurun · dibuang",
+    b4k:"SEKTOR RASMI", b4t:"Sektor rasmi Bursa, bukan tag pinjaman.",
+    b4d:"Peta sektor rasmi merangkumi 1,006 saham Bursa dan menggantikan tag pihak ketiga, jadi nama sawit seperti IOI, KLK, SD Guthrie dan TSH tidak lagi tersalah label sebagai pengguna. Kekuatan sektor boleh dibaca sepintas lalu.",
+    b4s1t:"Pasaran", b4s1v:"NEUTRAL", b4s2t:"Terkuat", b4s2v:"Energy 96", b4s3t:"Terlemah", b4s3v:"Telekom & Media 11", b4s4t:"Meningkat", b4s4v:"Health Care · Telekom & Media",
+    b5k:"CARTA DRILL-DOWN", b5t:"Setiap baris membuka carta.",
+    b5d:"Lilin dengan EMA 60 dan EMA 200, volum, KDJ dan garis rintangan pivot — klik dua kali untuk buka, dengan zoom, pan, crosshair dan penukaran tempoh D/W.",
+    sk:"Alat sebenar", sh:"Alat sebenar, bukan rekaan konsep.",
+    sp:"Di bawah ialah tab Ignition dan carta yang benar-benar berjalan — data Bursa Malaysia, disusun berperingkat dengan sebab di sebalik setiap skor.",
+    q1t:"Tab Ignition", q2t:"Carta",
+    sc1:"<b>Setiap kedudukan menjelaskan dirinya.</b> Kekuatan relatif, skor corak, jenis dan untung/risiko bersebelahan — anda nampak strukturnya, bukan skor kotak hitam.",
+    sc2:"<b>Carta itu sendiri adalah bukti.</b> Lilin dengan EMA 60 dan EMA 200, volum, KDJ dan garis rintangan pivot — pandangan yang sama anda guna untuk menyediakan dagangan.",
+    tk:"Rekod prestasi awam", th:"Setiap isyarat, bertarikh — termasuk yang tidak ke mana.",
+    tp:"Ini jurnal yang sama yang ditulis aplikasi pada mesin anda: apa yang timbul, bila, dan apa yang berlaku pada saham itu selepasnya. Tiada apa-apa diubah kemudian.",
+    tm1:"Kedudukan RS 80+", tm2:"Kedudukan RS bawah 40",
+    xh1:"Kumpulan", xh2:"n", xh3:"Median 5 hari", xh4:"Tutup lebih tinggi",
+    tn:"Tetingkap lima hari yang sama untuk kedua-dua kumpulan, tarikh yang sama. Kedudukan bukan janji — banyak isyarat RS tinggi tetap jatuh. Setiap baris dijana semula daripada fail jurnal.",
+    tper:"Tempoh diliputi: 26 Ogos 2026 → 11 Sep 2026 · Bursa Malaysia, US dan Shanghai.",
+    evc:"300 disusun · Energy terkuat (96) · Telekom & Media meningkat", evv:"LIHAT SAIZ PENUH",
+    tf:"Log bukan janji: isyarat lampau tidak menjamin hasil masa depan. Setiap nombor di atas dijana semula daripada fail jurnal itu sendiri.",
+    pk2:"Harga", ph2:"Bayar sekali. Milik anda.", pp2:"Tiada langganan, tiada iklan, tiada yuran data.",
+    ptag:"Harga awal · sehingga 31 Dis 2026", ponce:" · sekali", pnote:"Naik kepada RM199 pada 1 Jan 2027 · pembeli awal tidak terjejas",
+    psub:"Semua termasuk — Ignition v2, jurnal isyarat, semua penyaring, carta, amaran dan tiga pasaran. Satu kod satu komputer, aktivasi luar talian.",
+    l1:"Bursa · US · Shanghai", l2:"Radar pra-pecah Ignition v2", l3:"Semua 8 penyaring", l4:"Carta drill-down + pivot",
+    l5:"Amaran & auto-refresh", l6:"Jurnal isyarat + backtest", l7:"Aktivasi luar talian", l8:"Kemas kini seumur hidup",
+    pbuy:"Beli di Shopee — RM 99", pdl:"Muat Turun untuk Windows",
+    porder:'Pesan di <a href="https://shopee.com.my/product/68002823/53916481602/" target="_blank" rel="noopener">Shopee</a> — cari “Stock Screener Pro” atau hubungi penjual. Kod aktivasi anda dihantar selepas pembelian.',
+    pguar:"Jaminan wang kembali 7 hari melalui Shopee",
+    fk:"Soalan Lazim", fh:"Sebelum anda memuat turun.",
+    a1q:"Adakah saya perlukan Python atau persediaan?", a1a:"Tidak — pemasang membungkus semuanya (Python, pustaka, sumber data). Hanya jalankan .exe.",
+    a2q:"Adakah ini langganan?", a2a:"Tidak. Sekali bayar, lesen seumur hidup, aktivasi luar talian, satu kod satu komputer.",
+    a3q:"Data apa yang digunakan?", a3a:"Yahoo Finance (Bursa + US) dan AkShare (Shanghai) — sumber percuma. Data diambil semasa anda menjalankan penyaring dan dicache pada mesin anda; ia bukan suapan masa nyata berbayar.",
+    a4q:"Bagaimana penapis EMA60 berfungsi?", a4a:"Sidebar mempunyai kotak “Kecualikan EMA60 menurun”. Ia hanya membuang saham yang EMA60 benar-benar menurun — diukur sebagai perjalanan EMA60 dalam 10 bar menggunakan ATR20 saham itu sendiri (bawah −0.30 ATR = menurun). EMA60 rata dikekalkan, kerana rata bermakna belum disahkan dan bukan bearish. Ia terpakai pada setiap tab penyaring; Top Movers dikecualikan kerana ia petikan pasaran.",
+    a5q:"Boleh satu kod digunakan pada dua komputer?", a5a:"Tidak — setiap kod terikat pada satu komputer. Jika menukar komputer, hubungi penjual untuk gantian.",
+    a6q:"Windows kata fail ini tidak selamat?", a6a:"Klik <b>More info → Run anyway</b>. Binaan tidak ditandatangani (biasa untuk perisian kecil); ia selamat. Pulihkan dari kuarantin jika antivirus menyekat.",
+    fh2:'Berhenti mengejar.<br>Mula <span class="acc">menyaring</span>.',
+    fp:"Muat turun Stock Screener Pro dan cari corak sebelum pecahan berlaku.",
+    fc1:"Beli di Shopee — RM 99", fc2:"Muat Turun untuk Windows", fspec:"≈ 134 MB · Windows 10+ · v1.2.15",
+    fab:"Terminal penyaringan saham pelbagai pasaran untuk pedagang yang mahu KERANA, bukan sekadar skor.",
+    f1:"Produk", f2:"Sokongan", f3:"Bantuan muat turun & aktivasi", f4:"Hubungi (Shopee)", f5:"GitHub",
+    fd:'Data: Yahoo Finance · AkShare — untuk kajian dan rujukan sahaja, <b>bukan nasihat pelaburan</b>. Dagangan saham membawa risiko. © Stock Screener Pro.',
+    fv:"Windows 10+ · versi v1.2.15 · rekod dikemas kini 2026-09-11", lbx:"Tutup",
+    plk:"Cara ia mencari corak", plh:"Daripada seluruh pasaran kepada senarai yang boleh anda habis baca.", plp:"Empat langkah, satu klik, ke atas ribuan saham.",
+    pl1t:"Imbas pasaran", pl1d:"Data harian, mingguan dan setiap jam bagi setiap nama tersenarai.",
+    pl2t:"Kedudukan mengikut kekuatan", pl2d:"Kekuatan relatif berbanding pasaran dan sektornya sendiri.",
+    pl3t:"Kesan corak", pl3d:"Kualiti asas, volum kering, low lebih tinggi, kekuatan penutupan.",
+    pl4t:"Sediakan dagangan", pl4d:"Sasaran pergerakan terukur dan pembatalan — untung/risiko sebenar.",
+    ek:"Bukti yang boleh anda jalankan sendiri", eh:"Tiada dakwaan vendor. Tiada kadar kemenangan rekaan.",
+    ep:"Kami tidak akan menyebut nombor backtest yang tidak dapat dibuktikan. Aplikasi merekod setiap isyarat dan membolehkan anda mengukur kelebihan pada pasaran anda sendiri — Fasa-1 vs rawak vs indeks. Jika ia nyata, anda akan nampak.",
+    jbar:"JURNAL ISYARAT · EDGE REPORT", j1r:"direkod", j2r:"memantau", j3r:"direkod", j4r:"direkod",
+    shotnote:"Tangkapan skrin sebenar · Bursa Malaysia · antara muka aplikasi boleh ditukar dalam aplikasi",
+    cropview:"Klik untuk paparan penuh", anno1:"Disusun mengikut kekuatan relatif seluruh pasaran"
+  }
+};
+let lang = "zh";
+try { const s = localStorage.getItem("ssp-lang2"); if (I18N[s]) lang = s; } catch(e){}
+/* ── Public track record (data: track-record.json) ── */
+var TR = null;
+function trLang(){ return (lang === "zh") ? "zh" : (lang === "bm" ? "bm" : "en"); }
+function trPick(v){ return v ? (v[trLang()] || v.en || "") : ""; }
+function applyTrackRecord(){
+  if (!TR) return;
+  var stats = TR.stats || [];
+  document.querySelectorAll("[data-tr-stat]").forEach(function(el){
+    var s = stats[+el.getAttribute("data-tr-stat")];
+    if (!s) return;
+    var v = el.querySelector(".v");
+    if (v) {
+      var n = parseInt(String(s.value).replace(/[^0-9]/g, ""), 10);
+      if (!isNaN(n)) v.setAttribute("data-count", n);
+      v.dataset.done = "1";
+      v.textContent = String(s.value);
+    }
+    var l = el.querySelector(".l");
+    if (l && s.label) l.textContent = trPick(s.label);
+  });
+  var rows = (TR.measured && TR.measured.rows) || [];
+  document.querySelectorAll("[data-tr-mrow]").forEach(function(el){
+    var r = rows[+el.getAttribute("data-tr-mrow")];
+    if (r) el.textContent = trPick(r.detail);
+  });
+  var perEl = document.getElementById("trPeriod");
+  if (perEl && TR.period && TR.period.label) perEl.textContent = trPick(TR.period.label);
+  var e = (TR.entries || [])[0];
+  if (e) {
+    var img = document.querySelector("#ev img");
+    if (img && e.image) img.src = e.image;
+    var b = document.querySelector("#ev .cap2 b");
+    if (b) b.textContent = e.date + " · " + e.market;
+    var c = document.querySelector("#ev .cap2 span span");
+    if (c && e.caption) c.textContent = e.caption;
+  }
+}
+fetch("track-record.json", { cache: "no-cache" })
+  .then(function(r){ return r.ok ? r.json() : null; })
+  .then(function(d){ if (d) { TR = d; applyTrackRecord(); } })
+  .catch(function(){});
+function paintCountdown(){
+  var el = document.getElementById("count");
+  if (!el) return;
+  var end = new Date("2026-12-31T23:59:59+08:00").getTime();
+  var ms = end - Date.now();
+  if (ms <= 0) { el.style.display = "none"; return; }
+  var d = Math.ceil(ms / 86400000);
+  el.innerHTML = (lang === "zh") ? "距早鸟价结束还有 <b>" + d + "</b> 天"
+    : (lang === "bm") ? "<b>" + d + "</b> hari lagi pada harga ini"
+    : "<b>" + d + "</b> days left at this price";
+}
+function applyLang(l){
+  if (!I18N[l]) l = "zh";
+  lang = l;
+  try { localStorage.setItem("ssp-lang2", l); } catch(e){}
+  const d = I18N[l];
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    const k = el.getAttribute("data-i18n");
+    if (d[k] !== undefined) el.innerHTML = d[k];
+  });
+  document.querySelectorAll("[data-lang]").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-lang") === l); });
+  document.querySelectorAll(".tabs button").forEach(function(b){ b.setAttribute("aria-selected", b.classList.contains("on") ? "true" : "false"); });
+  document.documentElement.lang = (l === "zh") ? "zh-Hans" : "en";
+  paintCountdown();
+  applyTrackRecord();
+}
+document.querySelectorAll("[data-lang]").forEach(function(b){ b.addEventListener("click", function(){ applyLang(b.getAttribute("data-lang")); }); });
+applyLang(lang);
+
+const nav = document.getElementById("nav");
+const sc = function(){ nav.classList.toggle("stuck", window.scrollY > 8); };
+sc(); window.addEventListener("scroll", sc, { passive:true });
+
+const drawer = document.getElementById("drawer"), burger = document.getElementById("burger");
+burger.addEventListener("click", function(){ drawer.classList.add("open"); burger.setAttribute("aria-expanded","true"); });
+document.getElementById("xDrawer").addEventListener("click", function(){ drawer.classList.remove("open"); burger.setAttribute("aria-expanded","false"); });
+drawer.querySelectorAll("a").forEach(function(a){ a.addEventListener("click", function(){ drawer.classList.remove("open"); burger.setAttribute("aria-expanded","false"); }); });
+
+document.querySelectorAll(".tabs button").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll(".tabs button").forEach(function(x){ x.classList.remove("on"); x.setAttribute("aria-selected","false"); });
+    document.querySelectorAll(".panel").forEach(function(p){ p.classList.remove("on"); });
+    b.classList.add("on"); b.setAttribute("aria-selected","true");
+    document.getElementById(b.getAttribute("data-tab")).classList.add("on");
+  });
+});
+
+const lb = document.getElementById("lb"), ev = document.getElementById("ev");
+function openImg(src){ document.getElementById("lbImg").src = src; lb.classList.add("open"); }
+function openLb(){ const i = ev.querySelector("img"); openImg(i.dataset.full || i.src); }
+function closeLb(){ lb.classList.remove("open"); }
+ev.addEventListener("click", openLb);
+ev.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); } });
+document.querySelectorAll(".shot, .crop").forEach(function(s){
+  const im = s.querySelector("img");
+  const go = function(){ openImg(im.dataset.full || im.src); };
+  s.setAttribute("role","button");
+  if (!s.hasAttribute("tabindex")) s.setAttribute("tabindex","0");
+  s.addEventListener("click", go);
+  s.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+});
+document.getElementById("lbX").addEventListener("click", closeLb);
+lb.addEventListener("click", function(e){ if (e.target === lb) closeLb(); });
+document.addEventListener("keydown", function(e){ if (e.key === "Escape" && lb.classList.contains("open")) closeLb(); });
+
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const rvs = document.querySelectorAll(".rv");
+function fmt(n, l, big){ return (big && l === "en") || (big && l === "zh") ? n.toLocaleString(l === "zh" ? "zh-Hans" : "en-US") : String(n); }
+if (reduce || !("IntersectionObserver" in window)) {
+  rvs.forEach(function(el){ el.classList.add("in"); });
+  document.querySelectorAll(".st").forEach(function(el){ el.classList.add("in"); });
+  document.querySelectorAll("[data-count]").forEach(function(el){ const t = +el.getAttribute("data-count"); el.textContent = fmt(t, lang, t >= 1000); });
+  document.querySelectorAll(".track i").forEach(function(el){ el.style.width = el.getAttribute("data-w"); });
+} else {
+  const io = new IntersectionObserver(function(en){
+    en.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  rvs.forEach(function(el){ io.observe(el); });
+
+  const ioStat = new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if (!e.isIntersecting) return;
+      const el = e.target; ioStat.unobserve(el); el.classList.add("in");
+      const c = el.querySelector("[data-count]");
+      if (!c || c.dataset.done === "1") return;
+      c.dataset.done = "1";
+      const t = +c.getAttribute("data-count"), t0 = performance.now(), dur = 900;
+      (function step(now){
+        const p = Math.min((now - t0) / dur, 1), e2 = 1 - Math.pow(1 - p, 3);
+        c.textContent = fmt(Math.round(t * e2), lang, t >= 1000);
+        if (p < 1) requestAnimationFrame(step); else c.textContent = fmt(t, lang, t >= 1000);
+      })(t0);
+    });
+  }, { threshold: 0.45 });
+  document.querySelectorAll(".st").forEach(function(el){ ioStat.observe(el); });
+
+  const ioBar = new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if (!e.isIntersecting) return;
+      ioBar.unobserve(e.target);
+      setTimeout(function(){ e.target.style.width = e.target.getAttribute("data-w"); }, 120);
+    });
+  }, { threshold: 0.5 });
+  document.querySelectorAll(".track i").forEach(function(el){ ioBar.observe(el); });
+}
+</script>
 </body>
 </html>

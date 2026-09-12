@@ -1,0 +1,93 @@
+{
+  "stats": [
+    {
+      "value": "12",
+      "label": {
+        "en": "Trading days logged",
+        "bm": "Hari dagangan direkod",
+        "zh": "已记录的交易日"
+      }
+    },
+    {
+      "value": "6,148",
+      "label": {
+        "en": "Signals recorded",
+        "bm": "Isyarat direkod",
+        "zh": "已记录的信号"
+      }
+    },
+    {
+      "value": "1,291",
+      "label": {
+        "en": "Stocks covered",
+        "bm": "Saham diliputi",
+        "zh": "覆盖股票数"
+      }
+    },
+    {
+      "value": "3,684",
+      "label": {
+        "en": "With a resolved 5-day outcome",
+        "bm": "Dengan hasil 5 hari selesai",
+        "zh": "已有 5 日结算结果"
+      }
+    }
+  ],
+  "entries": [
+    {
+      "date": "2026-09-11",
+      "market": "Bursa",
+      "title": "Bursa Ignition - 300 ranked",
+      "caption": "Health Care strongest (97) - Telecoms & Media rising",
+      "image": "screenshots/track/2026-09-11-bursa.png"
+    }
+  ],
+  "period": {
+    "start": "2026-08-26",
+    "end": "2026-09-11",
+    "label": {
+      "en": "Period covered: 26 Aug 2026 to 11 Sep 2026 · Bursa Malaysia, US and Shanghai.",
+      "bm": "Tempoh diliputi: 26 Aug 2026 hingga 11 Sep 2026 · Bursa Malaysia, AS dan Shanghai.",
+      "zh": "覆盖区间：2026年8月26日 至 2026年9月11日 · 马来西亚、美国与上海。"
+    }
+  },
+  "measured": {
+    "title": {
+      "en": "Measured so far · Bursa Malaysia, 5 trading days after the signal",
+      "bm": "Diukur setakat ini · Bursa Malaysia, 5 hari dagangan selepas isyarat",
+      "zh": "目前的实测结果 —— 马股，信号发出后 5 个交易日"
+    },
+    "rows": [
+      {
+        "name": {
+          "en": "RS rank 80+",
+          "bm": "Kedudukan RS 80+",
+          "zh": "RS 排名 80 以上"
+        },
+        "detail": {
+          "en": "n=621 · median +0.41% · 50% closed higher",
+          "bm": "n=621 · median +0.41% · 50% tutup lebih tinggi",
+          "zh": "n=621 · 中位数 +0.41% · 50% 收高"
+        }
+      },
+      {
+        "name": {
+          "en": "RS rank below 40",
+          "bm": "Kedudukan RS bawah 40",
+          "zh": "RS 排名低于 40"
+        },
+        "detail": {
+          "en": "n=488 · median -0.17% · 33% closed higher",
+          "bm": "n=488 · median -0.17% · 33% tutup lebih tinggi",
+          "zh": "n=488 · 中位数 -0.17% · 33% 收高"
+        }
+      }
+    ],
+    "note": {
+      "en": "Same five-day window for both groups, same dates. A rank is a ranking, not a promise · plenty of high-RS signals still fell. Each row is regenerated from the journal file, not from memory.",
+      "bm": "Tetingkap lima hari yang sama untuk kedua-dua kumpulan, tarikh yang sama. Kedudukan bukan janji · banyak isyarat RS tinggi tetap jatuh. Setiap baris dijana semula daripada fail jurnal.",
+      "zh": "两组使用同样长度的 5 日窗口、同一段时间。排名不是承诺 —— 高 RS 信号同样会有回落。每一行都由 journal 文件重新生成，而非凭记忆填写。"
+    }
+  },
+  "updated": "2026-09-11"
+}
