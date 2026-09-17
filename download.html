@@ -31,8 +31,10 @@
   <b>Features:</b>
   🚀 <b>Ignition</b> pulse detector (RS rank vs market · Sector strength · Setup/Trigger/Breakout sub-scores · Closing-Strength CLV filter · measured-move R:R · 12-class labels with explainable reasons)
   · Top Movers · Technical Screeners (EMA Compression, KDJ, Golden Cross, 11-factor Scoring) · Chart drill-down (candlestick + EMA + KDJ + Pivot lines) · Alerts &amp; New Picks · Auto-refresh
-  <a class="dl" href="https://github.com/naiping87/stock-screener/releases/download/v1.2.3/StockScreenerPro_Setup.exe" download>⬇ &nbsp;Download for Windows (v1.2.3)</a>
-  <div class="note">≈ 134 MB · Windows 10+ · Self-contained (no Python needed)</div>
+  <a class="dl" href="https://drive.google.com/drive/folders/19ADuLdvmMqjy2Vl8ajiiXsQRNqhbRXh_?usp=sharing" download>⬇ &nbsp;Download for Windows (v1.2.24)</a>
+  <div class="note">≈ 126 MB · Windows 10+ · Self-contained (no Python needed)</div>
+  <div class="note" style="margin-top:8px;line-height:1.65">Download <b>StockScreenerPro_Setup.exe</b> — that is the installer. (If the folder shows any other file, ignore it.)<br>
+  <span style="font-size:12px;opacity:.8">Verify after downloading — size <b>133,256,742 bytes</b> · SHA-256 <code style="font-size:11px;word-break:break-all">1275efe28414fef89794b593447479dbedfe564d9787fcb4d3f545baed1fc03a</code></span></div>
 </div>
 
 <div class="card" style="border-color:#2962ff;">
@@ -75,5 +77,17 @@
   <p><b>Windows says the file is unsafe?</b> Click More info → Run anyway (unsigned build). Restore it from quarantine if your antivirus blocks it.</p>
   <p class="warn">For research and reference only — not investment advice. Trading stocks carries risk.</p>
 </div>
+<section style="max-width:760px;margin:26px auto;padding:18px 20px;border:1px solid rgba(255,255,255,.14);border-radius:14px">
+  <h3 style="margin:0 0 8px;font-size:16px">New in v1.2.24</h3>
+  <p style="margin:0 0 6px"><b>Movers vs Balanced are finally different on screen.</b> The Ignition tab opens in the order the objective produced (Movers = RS leadership x liquidity, Balanced = Value), a new <b>Rank</b> column shows each row's position, and switching the objective re-ranks the table immediately. A column sort you click yourself is still remembered between runs.</p>
+  <p style="margin:0 0 6px"><b>Daily trigger, weekly structure.</b> Ignition's support is multi-timeframe now: the daily level finds the trigger, the weekly level is the real structure &mdash; and a row whose weekly structure has broken says so instead of staying silent.</p>
+  <p style="margin:0 0 6px"><b>Fixes:</b> the web Ignition list no longer errors when you click a row; the engine no longer walks the same daily pivots twice per stock; and CI now blocks the bug classes behind those defects (undefined names, dead variables).</p>
+  <p style="margin:0;font-size:13px;opacity:.8">Linked mode uses TradingView’s local interface, so a future TradingView update could change it; the app then falls back to a new tab or the built-in chart. It is a bonus, not a requirement.</p>
+</section>
+<section style="max-width:760px;margin:22px auto;padding:16px 20px;border:1px solid rgba(255,255,255,.14);border-radius:14px">
+  <h3 style="margin:0 0 8px;font-size:15px">What this is &mdash; and what it is not</h3>
+  <p style="margin:0 0 8px;font-size:13.5px;line-height:1.6">It narrows 1,000+ stocks down to a shortlist worth charting. <b>It does not predict which stock will explode.</b> Measured on Bursa 2019&ndash;2026, the ranking&rsquo;s average excess return versus the market is about zero, and the list covers roughly 1 in 25 of the stocks that later run. It saves you hours; it does not make the decision for you. Data is for reference only &mdash; not investment advice.</p>
+  <p style="margin:0;font-size:12.5px;opacity:.75">The TradingView link is a bonus, not a requirement: it needs a one-time setup, and the app works without it (new tab) and without TradingView at all (built-in chart).</p>
+</section>
 </body>
 </html>
